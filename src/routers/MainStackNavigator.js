@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TabNavigator } from './TabNavigator';
-// import MainScreen from '../components/mainScreen';
+import loginScreen from '../components/login/login';
 
 const Stack = createStackNavigator();
 
@@ -12,10 +12,10 @@ export const MainStackNavigator = ({}) => {
     headerMode='none'
     mode='card'
   >
-    {/* <Stack.Screen
+    <Stack.Screen
       name='login'
       component={loginScreen}
-    /> */}
+    />
     <Stack.Screen
       name='Home'
       component={TabNavigator}
