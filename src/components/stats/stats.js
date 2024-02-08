@@ -1,32 +1,66 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
-import Colors from "../../style/colors";
+import React from  'react';
+import { StyleSheet } from 'react-native';
+import dayjs from 'dayjs';
 
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Calendar as DefaultCalendar } from 'react-native-calendars';
 
+const StatsScreen = ({ setManualEntryTimestamp }) => {
+ 
+  const today = dayjs().format('YYYY-MM-DD');
+  const markedDates = {
+    [today]: {
+      marked: true,
+    },
+   
+  };
 
-const StatsScreen = ({ navigation }) => {
+  const onManualInput = ({ day, month, year }) => {
+    const newTimestamp = new Date(year, month - 1, day).getTime();
+
+    if (newTimestamp < Date.now()) {
+      setManualEntryTimestamp(newTimestamp);
+    }
+  };
 
   return (
-    <>
-      <View
-        style={{ justifyContent: "center", alignItems: "flex-end", margin: 10 }}>
-        <TouchableOpacity>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "bold",
-              color: Colors.orange,
-              textDecorationLine: "underline",
-            }}
-          >
-            Stats Screen
-          </Text>
-        </TouchableOpacity>
-      </View>
-     
-    </>
+    <DefaultCalendar
+      style={styles.calendar}
+      markedDates={markedDates}
+      onDayPress={onManualInput}
+      theme={{
+        backgroundColor: 'white',
+        calendarBackground: 'white',
+        textSectionTitleColor: '#b6c1cd',
+        selectedDayBackgroundColor: 'blue',
+        selectedDayTextColor: 'white',
+        todayTextColor: 'blue',
+        dayTextColor: 'black',
+        textDisabledColor: '#d9e1e8',
+        dotColor: 'blue',
+        selectedDotColor: 'white',
+        arrowColor: 'black',
+        monthTextColor: 'black',
+        indicatorColor: 'blue',
+        textDayFontWeight: '300',
+        textMonthFontWeight: 'bold',
+        textDayHeaderFontWeight: '300',
+        textDayFontSize: 16,
+        textMonthFontSize: 16,
+        textDayHeaderFontSize: 16,
+      }}
+    />
   );
 };
+
+const styles = StyleSheet.create({
+  calendar: {
+    marginRight: 14,
+    marginBottom: 30,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+});
 
 export default StatsScreen;
