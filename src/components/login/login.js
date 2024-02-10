@@ -1,83 +1,76 @@
-import React, { useState } from "react";
-import { View, Text, Image, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import * as AuthSession from 'expo-auth-session';
+import * as Google from "expo-auth-session/providers/google";
+import { makeRedirectUri } from 'expo-auth-session';
+
 import Colors from "../../style/colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LoginScreen = ({ navigation }) => {
-  const screenWidth = Dimensions.get("window").width;
 
+  useEffect(() => {
+    const handleAuthSession = async () => {
+      const redirectUrl = makeRedirectUri({ useProxy: true });
+      const androidClientId = "686074631278-cpml0o7kvti07gnds3cppu2gpa421e99.apps.googleusercontent.com";
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${androidClientId}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&access_type=offline&prompt=consent`;
+      
+      const { type, params } = await AuthSession.startAsync({ authUrl });
+      console.log('AuthUrl',authUrl, type)
+  
+      if (type === 'success') {
+        console.log("Authentication successful:", params);
+        // Handle successful authentication
+      } else {
+        console.log("Authentication canceled or failed");
+        // Handle other types of results (e.g., cancellation or failure)
+      }
+    };
+
+    handleAuthSession();
+  }, []);
+
+  const [, , promptAsync] = Google.useAuthRequest({
+    clientId: "686074631278-cpml0o7kvti07gnds3cppu2gpa421e99.apps.googleusercontent.com",
+    redirectUri: makeRedirectUri({ useProxy: true }),
+    scopes: ['profile', 'email'],
+  });
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      await promptAsync();
+    } catch (error) {
+      console.error("Error:", error);
+      Alert.alert("Error", "Failed to authenticate with Google.");
+    }
+  };
+  
   return (
-    <View style={{ backgroundColor: Colors.white, flex:1 }}>
-      <View>
-        <Image
-          source={require("../../assets/loginScreen.png")}
-          style={{ width: screenWidth, height: 550, marginBottom: 5 }}
-        />
-      </View>
-      <View style={{ alignItems: "center", justifyContent: "center", marginTop:25 }}>
-        <Text
-          style={{
-            fontSize: 21,
-            fontWeight: "bold",
-            color: Colors.activeColor,
-          }}
-        >
-          Welcome to your Haven
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            color: Colors.lightBlue,
-          }}
-        >
-          Take a deep breath and begin your
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            color: Colors.lightBlue,
-          }}
-        >
-          healing journey
-        </Text>
-      </View>
-      <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            color:Colors.activeColor,
-            alignSelf:'center',
-            marginTop:100
-          }}
-        >
-          Get Started
-        </Text>
+    <View style={{ backgroundColor: Colors.white, flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Image
+        source={require("../../assets/loginScreen.png")}
+        style={{ width: 200, height: 200, marginBottom: 20 }}
+      />
+      <Text style={{ fontSize: 24, fontWeight: "bold", color: Colors.activeColor, marginBottom: 10 }}>
+        Welcome to your Haven
+      </Text>
+      <Text style={{ fontSize: 16, color: Colors.lightBlue, marginBottom: 20 }}>
+        Take a deep breath and begin your healing journey
+      </Text>
       <TouchableOpacity
         style={{
           backgroundColor: Colors.lightBlue,
           borderRadius: 7,
-          width: 200,
-          height: 50,
-          padding: 5,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+          flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
-          alignSelf:'center',
-          marginTop:5
         }}
+        onPress={handleLoginWithGoogle}
       >
-       
-        <View style={{display:'flex', flexDirection:'row'}}>
-          <Image source={require("../../assets/gImage.png")} style={{ width:30, height:30}}/>
-          <Text
-            style={{
-              fontSize: 18,
-              color: Colors.white,
-              marginLeft:7
-            }}
-          >
-            Login With Google
+        <Image source={require("../../assets/gImage.png")} style={{ width: 30, height: 30, marginRight: 10 }} />
+        <Text style={{ fontSize: 18, color: Colors.white }}>
+          Login With Google
         </Text>
-        </View>
       </TouchableOpacity>
     </View>
   );

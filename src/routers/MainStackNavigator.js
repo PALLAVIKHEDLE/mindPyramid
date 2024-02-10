@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 export const MainStackNavigator = ({}) => {
   return (
     <Stack.Navigator
-    initialRouteName='Home'
+    initialRouteName='login'
     headerMode='none'
     mode='card'
   >
