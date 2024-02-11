@@ -15,8 +15,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    },
+      "supportsTablet": true,
+      "bundleIdentifier": "com.peace.mindPyramid"
+      },
     "android": {
       "package": "com.peace.mindPyramid",
       "adaptiveIcon": {
