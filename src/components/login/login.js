@@ -15,10 +15,9 @@ const LoginScreen = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: "686074631278-cpml0o7kvti07gnds3cppu2gpa421e99.apps.googleusercontent.com",
-    iosClientId: "686074631278-obhvesikr6juspq95v8bsbolvlh81ciq.apps.googleusercontent.com",
-    clientId: "686074631278-co8vng6rkbqrvh6juhtlm02klm4puqrj.apps.googleusercontent.com",
-  
+    clientId:"686074631278-q607n2frm9dtpiqaandgln0fjvmsku7e.apps.googleusercontent.com",
+    iosClientId: "686074631278-3rlp0ieu6ir77ucfqdit8qh9lkh7ti36.apps.googleusercontent.com",
+    androidClientId: "686074631278-b1nh1kemt9ng4e9utfmd1h44q1leaccs.apps.googleusercontent.com",
   });
 
 
