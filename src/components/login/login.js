@@ -22,6 +22,17 @@ const LoginScreen = ({ navigation }) => {
 
 
   useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      const user = await getLocalUser();
+      if (user) {
+        navigation.navigate('Home');
+      }
+    };
+
+    checkUserLoggedIn();
+  }, []);
+  
+  useEffect(() => {
     const signInWithGoogle = async () => {
       console.log("signInWithGoogle called, response:", response);
   
@@ -48,6 +59,7 @@ console.log(JSON.stringify(userInfo))
   };
 
   const getUserInfo = async (token) => {
+    console.log('token',token)
     if (!token) return;
     try {
       const response = await fetch(
@@ -60,6 +72,7 @@ console.log('response',response)
       const user = await response.json();
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       setUserInfo(user);
+      console.log('user,user',user)
       navigation.navigate('Home')
     } catch (error) {
       console.error('error',error)
