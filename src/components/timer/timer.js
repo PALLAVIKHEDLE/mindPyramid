@@ -2,56 +2,44 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Svg, { Circle, Text as SvgText } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
+import { Picker } from '@react-native-picker/picker';
 
 const TimerScreen = () => {
   const FULL_DASH_ARRAY = 283;
-  const TIME_LIMIT = 60;
+  const HOURS_LIMIT = 24;
+  const MINUTES_LIMIT = 60;
+  const SECONDS_LIMIT = 60;
 
-  const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(0);
   const timerInterval = useRef(null);
   const startTime = useRef(null);
-  const circleWidth = 200; // Set a default width for the circle
+  const circleWidth = 150; 
 
   useEffect(() => {
-    setTimeLeft(TIME_LIMIT);
-  }, []);
+    updateTimeLeft();
+  }, [hours, minutes, seconds]);
 
   const reset = () => {
     clearInterval(timerInterval.current);
     resetVars();
   };
 
-  // const start = (withReset = false) => {
-  //   if (withReset) {
-  //     resetVars();
-  //   }
-  //   startTimer();
-  // };
-
   const start = (withReset = false) => {
     if (withReset) {
       resetVars();
     }
-    if (!startTime.current) {
-      startTimer();
-    } else {
-      const elapsedTime = (Date.now() - startTime.current) / 1000;
-      setTimeLeft((prevTimeLeft) => Math.max(0, TIME_LIMIT - elapsedTime));
-      startTimer();
-    }
-  };
-
-  const pause = () => {
-    clearInterval(timerInterval.current);
-    startTime.current = Date.now();
+    startTimer();
   };
 
   const startTimer = () => {
-    startTime.current = Date.now() - (TIME_LIMIT - timeLeft) * 1000;
+    startTime.current = Date.now() - (timeLeft * 1000);
     timerInterval.current = setInterval(() => {
       const elapsedTime = (Date.now() - startTime.current) / 1000;
-      setTimeLeft((prevTimeLeft) => Math.max(0, TIME_LIMIT - elapsedTime));
-      if (elapsedTime >= TIME_LIMIT) {
+      setTimeLeft((prevTimeLeft) => Math.max(0, timeLeft - elapsedTime));
+      if (elapsedTime >= timeLeft) {
         timeIsUp();
       }
     }, 1000);
@@ -71,12 +59,16 @@ const TimerScreen = () => {
   };
 
   const resetVars = () => {
-    setTimeLeft(TIME_LIMIT);
+    setTimeLeft(0);
     startTime.current = null;
   };
 
+  const updateTimeLeft = () => {
+    setTimeLeft(hours * 3600 + minutes * 60 + seconds);
+  };
+
   const calculateTimeFraction = () => {
-    return timeLeft / TIME_LIMIT;
+    return timeLeft / (HOURS_LIMIT * 3600 + MINUTES_LIMIT * 60 + SECONDS_LIMIT);
   };
 
   const setCircleDasharray = (width) => {
@@ -89,6 +81,39 @@ const TimerScreen = () => {
 
   return (
     <LinearGradient colors={['#CADFED', '#EDF5F9']} style={styles.container}>
+      <View style={styles.headingContainer}>
+        <Text style={styles.headingText}>HOURS</Text>
+        <Text style={styles.headingText}>MINUTES</Text>
+        <Text style={styles.headingText}>SECONDS</Text>
+      </View>
+
+      <View style={styles.pickerContainer}>
+        <Picker
+          style={styles.picker}
+          selectedValue={hours}
+          onValueChange={(itemValue) => setHours(itemValue)}>
+          {[...Array(HOURS_LIMIT).keys()].map((value) => (
+            <Picker.Item key={value} label={value.toString().padStart(2, '0')} value={value} />
+          ))}
+        </Picker>
+        <Picker
+          style={styles.picker}
+          selectedValue={minutes}
+          onValueChange={(itemValue) => setMinutes(itemValue)}>
+          {[...Array(MINUTES_LIMIT).keys()].map((value) => (
+            <Picker.Item key={value} label={value.toString().padStart(2, '0')} value={value} />
+          ))}
+        </Picker>
+        <Picker
+          style={styles.picker}
+          selectedValue={seconds}
+          onValueChange={(itemValue) => setSeconds(itemValue)}>
+          {[...Array(SECONDS_LIMIT).keys()].map((value) => (
+            <Picker.Item key={value} label={value.toString().padStart(2, '0')} value={value} />
+          ))}
+        </Picker>
+      </View>
+
       <View style={styles.circleContainer}>
         <Svg height={circleWidth} width={circleWidth}>
           <Circle
@@ -96,7 +121,7 @@ const TimerScreen = () => {
             cy={circleWidth / 2}
             r={circleWidth / 2 - 10}
             stroke="grey"
-            strokeWidth="3"
+            strokeWidth="5" 
             fill="none"
           />
           <Circle
@@ -104,33 +129,27 @@ const TimerScreen = () => {
             cy={circleWidth / 2}
             r={circleWidth / 2 - 10}
             stroke="#F89C8C"
-            strokeWidth="3"
+            strokeWidth="5" 
             fill="none"
             strokeDasharray={setCircleDasharray(circleWidth)}
             strokeLinecap="round"
           />
           <SvgText
             x="50%"
-            y="56%"
-            fontSize="20"
+            y="50%" 
+            fontSize="30" 
             textAnchor="middle"
             stroke="black"
             fill="black"
           >
-            {timeLeft.toFixed(0)}
+            {`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}
           </SvgText>
         </Svg>
       </View>
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={() => start(true)}>
-          <Text>Start</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={pause}>
-          <Text>Pause</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={reset}>
-          <Text>Reset</Text>
+          <Text style={{textAlign:'center', fontWeight:'bold', }}>Start</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>
@@ -143,18 +162,41 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  pickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginBottom: 150,
+  },
+  headingContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems:'center',
+  },
+  headingText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  marginHorizontal:8,
+  marginBottom: 10,
+
+  },
+  picker: {
+    width: 100,
+    height: 50,
+  },
   circleContainer: {
     alignItems: "center",
+    marginTop: 20,
   },
   buttonsContainer: {
     flexDirection: "row",
     marginTop: 20,
   },
   button: {
-    marginHorizontal: 10,
-    padding: 7,
+    width:'25%',
+    padding: 12, 
     backgroundColor: "#FFB8B8",
-    borderRadius: 6,
+    borderRadius: 15,
   },
 });
 
