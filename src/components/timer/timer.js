@@ -5,7 +5,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Picker } from "@react-native-picker/picker";
 
 const TimerScreen = () => {
-  const FULL_DASH_ARRAY = 283;
   const HOURS_LIMIT = 24;
   const MINUTES_LIMIT = 60;
   const SECONDS_LIMIT = 60;
@@ -175,7 +174,7 @@ const TimerScreen = () => {
             fontSize="22"
             textAnchor="middle"
             dy="6"
-  fill="white"  
+            fill="white"
           >
             {renderTime()}
           </SvgText>
@@ -226,11 +225,11 @@ const styles = StyleSheet.create({
   },
   circleContainer: {
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 22,
   },
   buttonsContainer: {
     flexDirection: "row",
-    marginTop: 20,
+    marginTop: 34,
   },
   button: {
     width: "25%",
