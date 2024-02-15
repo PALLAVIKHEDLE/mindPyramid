@@ -35,16 +35,22 @@ const TimerScreen = () => {
   };
 
   const startTimer = () => {
-    startTime.current = Date.now() - (timeLeft * 1000);
+    startTime.current = Date.now();
+    setTimeLeft(hours * 3600 + minutes * 60 + seconds);
     timerInterval.current = setInterval(() => {
-      const elapsedTime = (Date.now() - startTime.current) / 1000;
-      setTimeLeft((prevTimeLeft) => Math.max(0, timeLeft - elapsedTime));
-      if (elapsedTime >= timeLeft) {
-        timeIsUp();
-      }
+      const currentTime = Date.now();
+      const elapsedTimeInSeconds = (currentTime - startTime.current) / 1000; 
+      setTimeLeft((prevTimeLeft) => {
+        const updatedTimeLeft = Math.max(0, prevTimeLeft - elapsedTimeInSeconds);
+        if (updatedTimeLeft <= 0) {
+          timeIsUp(); 
+          clearInterval(timerInterval.current); 
+        }
+        return updatedTimeLeft; 
+      });
     }, 1000);
   };
-
+  
   const timeIsUp = () => {
     clearInterval(timerInterval.current);
     Alert.alert('Alert Title', 'Do you want to add this in streak?', [
@@ -79,6 +85,13 @@ const TimerScreen = () => {
     return strokeDasharray;
   };
 
+  const renderTime = () => {
+    const hoursLeft = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
+    const minutesLeft = Math.floor((timeLeft % 3600) / 60).toString().padStart(2, '0');
+    const secondsLeft = Math.ceil((timeLeft % 60)).toString().padStart(2, '0');
+    return `${hoursLeft}:${minutesLeft}:${secondsLeft}`;
+  };
+
   return (
     <LinearGradient colors={['#CADFED', '#EDF5F9']} style={styles.container}>
       <View style={styles.headingContainer}>
@@ -92,7 +105,7 @@ const TimerScreen = () => {
           style={styles.picker}
           selectedValue={hours}
           onValueChange={(itemValue) => setHours(itemValue)}>
-          {[...Array(HOURS_LIMIT).keys()].map((value) => (
+          {[...Array(HOURS_LIMIT+1).keys()].map((value) => (
             <Picker.Item key={value} label={value.toString().padStart(2, '0')} value={value} />
           ))}
         </Picker>
@@ -100,7 +113,7 @@ const TimerScreen = () => {
           style={styles.picker}
           selectedValue={minutes}
           onValueChange={(itemValue) => setMinutes(itemValue)}>
-          {[...Array(MINUTES_LIMIT).keys()].map((value) => (
+          {[...Array(MINUTES_LIMIT+1).keys()].map((value) => (
             <Picker.Item key={value} label={value.toString().padStart(2, '0')} value={value} />
           ))}
         </Picker>
@@ -108,7 +121,7 @@ const TimerScreen = () => {
           style={styles.picker}
           selectedValue={seconds}
           onValueChange={(itemValue) => setSeconds(itemValue)}>
-          {[...Array(SECONDS_LIMIT).keys()].map((value) => (
+          {[...Array(SECONDS_LIMIT+1).keys()].map((value) => (
             <Picker.Item key={value} label={value.toString().padStart(2, '0')} value={value} />
           ))}
         </Picker>
@@ -142,7 +155,7 @@ const TimerScreen = () => {
             stroke="black"
             fill="black"
           >
-            {`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}
+            {renderTime()}
           </SvgText>
         </Svg>
       </View>
@@ -176,9 +189,8 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 16,
     fontWeight: 'bold',
-  marginHorizontal:8,
-  marginBottom: 10,
-
+    marginHorizontal:10,
+    marginBottom: 10,
   },
   picker: {
     width: 100,
