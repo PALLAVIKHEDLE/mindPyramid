@@ -26,6 +26,10 @@ const TimerScreen = () => {
     clearInterval(timerInterval.current);
     resetVars();
   };
+  const pause = () => {
+    clearInterval(timerInterval.current);
+    startTime.current = Date.now();
+  };
 
   const startTimer = () => {
     startTime.current = Date.now();
@@ -157,21 +161,21 @@ const TimerScreen = () => {
 
       <View style={styles.circleContainer}>
         <Svg height={circleWidth} width={circleWidth}>
-        <Circle
-    cx={circleWidth / 2}
-    cy={circleWidth / 2}
-    r={circleWidth / 2 - 10}
-    stroke="#F89C8C"
-    strokeWidth="5" 
-    fill="#FFB8B8"
-  />
+          <Circle
+            cx={circleWidth / 2}
+            cy={circleWidth / 2}
+            r={circleWidth / 2 - 10}
+            stroke="#F89C8C"
+            strokeWidth="5"
+            fill="#FFB8B8"
+          />
           <SvgText
             x="50%"
             y="50%"
-            fontSize="30"
+            fontSize="22"
             textAnchor="middle"
-            stroke="black"
-            fill="black"
+            dy="6"
+  fill="white"  
           >
             {renderTime()}
           </SvgText>
@@ -180,7 +184,13 @@ const TimerScreen = () => {
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={() => start(true)}>
-          <Text style={{ textAlign: "center", fontWeight: "bold" }}>Start</Text>
+          <Text style={styles.buttonText}>Start</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={pause}>
+          <Text style={styles.buttonText}>Pause</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={reset}>
+          <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>
@@ -227,6 +237,12 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: "#FFB8B8",
     borderRadius: 15,
+    marginRight: 5,
+  },
+  buttonText: {
+    textAlign: "center",
+    // fontWeight: "bold",
+    // color:'white'
   },
 });
 
