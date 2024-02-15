@@ -55,12 +55,10 @@ const TimerScreen = () => {
       resetVars();
     }
     startTimer();
-    console.log("Timer started. timerInterval.current:", timerInterval.current);
   };
 
   const timeIsUp = () => {
     clearInterval(timerInterval.current);
-    console.log("Timer stopped. timerInterval.current:", timerInterval.current);
     Alert.alert("Alert Title", "Do you want to add this in streak?", [
       {
         text: "Cancel",
@@ -83,16 +81,6 @@ const TimerScreen = () => {
 
   const calculateTimeFraction = () => {
     return timeLeft / (HOURS_LIMIT * 3600 + MINUTES_LIMIT * 60 + SECONDS_LIMIT);
-  };
-
-  const setCircleDasharray = (width) => {
-    const radius = width / 2 - 10;
-    const circumference = 2 * Math.PI * radius;
-    const timeFraction = calculateTimeFraction();
-    const strokeDasharray = `${(timeFraction * circumference).toFixed(
-      0
-    )} ${circumference}`;
-    return strokeDasharray;
   };
 
   const renderTime = () => {
