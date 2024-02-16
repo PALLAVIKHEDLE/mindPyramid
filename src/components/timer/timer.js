@@ -152,9 +152,8 @@ const TimerScreen = () => {
             cx={circleWidth / 2}
             cy={circleWidth / 2}
             r={circleWidth / 2 - 10}
-            stroke="#F89C8C"
             strokeWidth="5"
-            fill="#FFB8B8"
+            fill="#FFC8BF"
           />
           <SvgText
             x="50%"
@@ -222,14 +221,14 @@ const styles = StyleSheet.create({
   button: {
     width: "25%",
     padding: 12,
-    backgroundColor: "#FFB8B8",
+    backgroundColor: "#FBB5A9",
     borderRadius: 15,
     marginRight: 5,
   },
   buttonText: {
     textAlign: "center",
-    // fontWeight: "bold",
-    // color:'white'
+    fontWeight: "bold",
+    color:'white'
   },
 });
 
