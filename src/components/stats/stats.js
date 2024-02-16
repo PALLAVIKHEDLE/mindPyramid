@@ -19,64 +19,52 @@ export default function StatsScreen() {
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
-    
-        <DateProvider>
-          <View style={styles.cardsContainer}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.cards}
-            >
-              <Card style={styles.card}>
-                <Card.Content style={styles.cardContent}>
-                  <Icon name="Trophy" style={styles.icon} size={30} color={Colors.primary} />
-                  <Paragraph style={styles.pStyle}>Current Streak</Paragraph>
-                  <Title  style={{color:'white'}}>{streak} day{streak === 1 ? '' : 's'}</Title>
-                </Card.Content>
-              </Card>
-              <Card style={styles.card}>
-                <Card.Content style={styles.cardContent}>
-                  <Icon name="calendar" style={styles.icon} size={30} />
-                  <Paragraph style={styles.pStyle}>Total Sessions</Paragraph>
-                  <Title style={{color:'white'}}>{totalSessions} session{totalSessions === 1 ? '' : 's'}</Title>
-                </Card.Content>
-              </Card>
-              <Card style={styles.card}>
-                <Card.Content style={styles.cardContent}>
-                  <Icon name="clockcircleo" style={styles.icon} size={30}  />
-                  <Paragraph style={styles.pStyle}>Time Meditating</Paragraph>
-                  <Title style={{color:'white'}}>{listenedState}</Title>
-                </Card.Content>
-              </Card>
-            </ScrollView>
-          </View>
-          <Calendar key={Colors.primary} setManualEntryTimestamp={setManualEntryTimestamp} />
-        </DateProvider>
-        {manualEntryTimestamp !== null && (
-          <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
-            <ManualEntry
-              timestamp={manualEntryTimestamp}
-              onDismiss={() => setManualEntryTimestamp(null)}
-            />
-          </View>
-        )}
-  
-    </LinearGradient>
+        <View style={styles.cardsContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.cards}
+          >
+            <Card style={styles.card}>
+              <Card.Content style={styles.cardContent}>
+                <Icon name="Trophy" style={styles.icon} size={30} color={Colors.primary} />
+                <Paragraph style={styles.pStyle}>Current Streak</Paragraph>
+                <Title style={{color:'white'}}>{streak} day{streak === 1 ? '' : 's'}</Title>
+              </Card.Content>
+            </Card>
+            <Card style={styles.card}>
+              <Card.Content style={styles.cardContent}>
+                <Icon name="calendar" style={styles.icon} size={30} />
+                <Paragraph style={styles.pStyle}>Total Sessions</Paragraph>
+                <Title style={{color:'white'}}>{totalSessions} session{totalSessions === 1 ? '' : 's'}</Title>
+              </Card.Content>
+            </Card>
+            <Card style={styles.card}>
+              <Card.Content style={styles.cardContent}>
+                <Icon name="clockcircleo" style={styles.icon} size={30}  />
+                <Paragraph style={styles.pStyle}>Time Meditating</Paragraph>
+                <Title style={{color:'white'}}>{listenedState}</Title>
+              </Card.Content>
+            </Card>
+          </ScrollView>
+         </View>
+        <Calendar key={Colors.primary} setManualEntryTimestamp={setManualEntryTimestamp} />
+          </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingTop: 36,
     paddingLeft: 14,
   },
   cardsContainer: {
-    height: 130, 
+    maxHeight: 130, 
     marginBottom: 30,
   },
   cards: {
     flexDirection: 'row',
+    alignItems: 'center', 
   },
   card: {
     width: 150,

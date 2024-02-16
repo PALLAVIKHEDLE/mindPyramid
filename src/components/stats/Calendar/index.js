@@ -6,7 +6,7 @@ import { useDateContext } from './DateContext';
 
 const CalendarScreen = ({ setManualEntryTimestamp }) => {
  
-const { setSelectedDate } = useDateContext();
+// const { setSelectedDate } = useDateContext();
   const today = dayjs().format('YYYY-MM-DD');
   const markedDates = {
     [today]: {
