@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { AntDesign as Icon } from '@expo/vector-icons';
-import { DateProvider } from './Calendar/DateContext';
 import { LinearGradient } from "expo-linear-gradient";
 
 import Calendar from './Calendar';
-import Colors from '../../style/colors';
 import ManualEntry from './ManualEntry';
 
 export default function StatsScreen() {
@@ -15,7 +13,7 @@ export default function StatsScreen() {
   const [streak, setStreak] = useState(0);
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [listenedState, setListenedState] = useState(0);
-  const [manualEntryTimestamp, setManualEntryTimestamp] = useState(0);
+  const [manualEntryTimestamp, setManualEntryTimestamp] = useState(null);
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
@@ -27,7 +25,7 @@ export default function StatsScreen() {
           >
             <Card style={styles.card}>
               <Card.Content style={styles.cardContent}>
-                <Icon name="Trophy" style={styles.icon} size={30} color={Colors.primary} />
+                <Icon name="Trophy" style={styles.icon} size={30} />
                 <Paragraph style={styles.pStyle}>Current Streak</Paragraph>
                 <Title style={{color:'white'}}>{streak} day{streak === 1 ? '' : 's'}</Title>
               </Card.Content>
@@ -48,7 +46,13 @@ export default function StatsScreen() {
             </Card>
           </ScrollView>
          </View>
-        <Calendar key={Colors.primary} setManualEntryTimestamp={setManualEntryTimestamp} />
+         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp} />
+            {manualEntryTimestamp !== null && (
+                <ManualEntry
+                    timestamp={manualEntryTimestamp}
+                    onDismiss={() => setManualEntryTimestamp(null)}
+                />
+            )}
           </LinearGradient>
   );
 }

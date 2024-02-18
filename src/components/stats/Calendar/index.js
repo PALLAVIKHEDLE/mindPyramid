@@ -2,11 +2,10 @@ import React from  'react';
 import { StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 import { Calendar as DefaultCalendar } from 'react-native-calendars';
-import { useDateContext } from './DateContext';
+import Colors from '../../../style/colors';
 
 const CalendarScreen = ({ setManualEntryTimestamp }) => {
  
-// const { setSelectedDate } = useDateContext();
   const today = dayjs().format('YYYY-MM-DD');
   const markedDates = {
     [today]: {
@@ -14,13 +13,6 @@ const CalendarScreen = ({ setManualEntryTimestamp }) => {
     },
    
   };
-//   const onManualInput = ({ day, month, year }) => {
-//     const newTimestamp = new Date(year, month - 1, day).getTime();
-
-//     if (newTimestamp < Date.now()) {
-//       setSelectedDate(newTimestamp);
-//     }
-//   };
 
 const onManualInput = ({ day, month, year }) => {
     console.log('DATE select', day, month, year)
@@ -36,22 +28,22 @@ const onManualInput = ({ day, month, year }) => {
   return (
     <DefaultCalendar
       style={styles.calendar}
-      markedDates={markedDates}
-      onDayPress={()=>onManualInput}
+      // markedDates={markedDates}
+      onDayPress={onManualInput}
       theme={{
         backgroundColor: 'white',
         calendarBackground: 'white',
-        textSectionTitleColor: '#b6c1cd',
-        selectedDayBackgroundColor: 'blue',
-        selectedDayTextColor: 'white',
-        todayTextColor: 'blue',
+        textSectionTitleColor: Colors.lightBlue,
+        selectedDayBackgroundColor: Colors.lightBlue,
+        selectedDayTextColor: 'black',
+        todayTextColor: Colors.lightBlue,
         dayTextColor: 'black',
         textDisabledColor: '#d9e1e8',
-        dotColor: 'blue',
+        dotColor: Colors.lightBlue,
         selectedDotColor: 'white',
         arrowColor: 'black',
         monthTextColor: 'black',
-        indicatorColor: 'blue',
+        indicatorColor: Colors.lightBlue,
         textDayFontWeight: '300',
         textMonthFontWeight: 'bold',
         textDayHeaderFontWeight: '300',

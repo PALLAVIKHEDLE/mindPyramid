@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, Paragraph, Dialog, Portal, Provider, TextInput } from 'react-native-paper';
+import React, { useState } from 'react';
+import { Dialog, TextInput } from 'react-native-paper';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
+import Colors from '../../../style/colors';
 import { MS_PER_MINUTE } from '../../../constants/units';
 
-const ManualEntry = ({ timestamp, onDismiss }) => {
-  const [visible, setVisible] = useState(false);
-  const [duration, setDuration] = useState(-1);
+const ManualEntry = ({ onDismiss }) => {
+  const [duration, setDuration] = useState('');
   const [defaultValue, setDefaultValue] = useState('');
-
-//   useEffect(() => {
+  //   useEffect(() => {
 //     if (!timestamp) {
 //       return;
 //     }
@@ -33,52 +32,61 @@ const ManualEntry = ({ timestamp, onDismiss }) => {
     if (duration < 0) {
       return;
     }
-
-    dispatch(
-      manualEntry({
-        timestamp: timestamp,
-        duration: duration,
-      })
-    );
     onDismiss();
   };
 
   return (
-    <Provider>
-      <Portal>
-        <Dialog visible={visible} onDismiss={onDismiss}>
-          <Dialog.Title>Manual Entry</Dialog.Title>
-          <Dialog.Content>
-            <Paragraph>Enter how long you meditated for</Paragraph>
-            <TextInput
-              testID="input"
-              key={defaultValue}
-              autoFocus
-              defaultValue={defaultValue}
-              keyboardType="number-pad"
-              label="Time in minutes"
-              maxLength={3}
-              onChangeText={onChangeText}
-              onSubmitEditing={onSubmit}
-              style={styles.textInput}
-            />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button testID="cancel-btn" onPress={onDismiss}>
-              Cancel
-            </Button>
-            <Button testID="submit-btn" disabled={duration < 0} onPress={onSubmit}>
-              Submit
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-    </Provider>
+    <Dialog visible={true} onDismiss={onDismiss} style={{ backgroundColor: '#EDF5F9' }}>
+      <Dialog.Title style={{color:Colors.lightBlue}}>Manual Entry</Dialog.Title>
+      <Dialog.Content>
+        <TextInput
+           key={defaultValue}
+           autoFocus
+          defaultValue={defaultValue}
+          keyboardType="number-pad"
+          label="Time in minutes"
+          maxLength={3}
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmit}
+          style={{ backgroundColor: '#EDF5F9' }}
+          theme={{colors:{ primary: Colors.activeColor }}}
+        />
+      </Dialog.Content>
+      <Dialog.Actions>
+        <TouchableOpacity style={styles.activeButton} onPress={() => onDismiss}>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+         style={[styles.activeButton, duration < 0 ? styles.disableButton : null]}
+          onPress={onSubmit}
+          disabled={duration < 0}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </Dialog.Actions>
+    </Dialog>
   );
 };
 
 const styles = StyleSheet.create({
-  textInput: { marginTop: 10 },
-});
-
+    activeButton: {
+      width: "25%",
+      padding: 12,
+      backgroundColor: "#FBB5A9",
+      borderRadius: 15,
+      marginRight: 5,
+    },
+    disableButton: {
+        width: "25%",
+        padding: 12,
+        backgroundColor: Colors.grey,
+        borderRadius: 15,
+        marginRight: 5,
+      },
+    buttonText: {
+      textAlign: "center",
+      fontWeight: "bold",
+      color:'white'
+    },
+  });
 export default ManualEntry;
