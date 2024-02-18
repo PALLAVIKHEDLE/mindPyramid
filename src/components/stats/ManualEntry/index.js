@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, TextInput } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import Colors from '../../../style/colors';
@@ -7,15 +7,18 @@ import { MS_PER_MINUTE } from '../../../constants/units';
 const ManualEntry = ({ onDismiss }) => {
   const [duration, setDuration] = useState('');
   const [defaultValue, setDefaultValue] = useState('');
-  //   useEffect(() => {
-//     if (!timestamp) {
-//       return;
-//     }
 
-//     const newDuration = activity[timestamp]?.duration || -1;
-//     setDuration(newDuration);
-//     setDefaultValue(newDuration === -1 ? '' : Math.floor(newDuration / MS_PER_MINUTE).toString());
-//   }, [activity, timestamp]);
+  console.log('duration', duration)
+
+  //   useEffect(() => {
+  //   if (!timestamp) {
+  //     return;
+  //   }
+
+  //   const newDuration = activity[timestamp]?.duration || -1;
+  //   setDuration(newDuration);
+  //   setDefaultValue(newDuration === -1 ? '' : Math.floor(newDuration / MS_PER_MINUTE).toString());
+  // }, [activity, timestamp]);
 
   const onChangeText = (text) => {
     const value = Number(text);
@@ -53,7 +56,7 @@ const ManualEntry = ({ onDismiss }) => {
         />
       </Dialog.Content>
       <Dialog.Actions>
-        <TouchableOpacity style={styles.activeButton} onPress={() => onDismiss}>
+        <TouchableOpacity style={styles.activeButton} onPress={() => onDismiss()}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity

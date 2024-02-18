@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { AntDesign as Icon } from '@expo/vector-icons';
@@ -14,6 +14,22 @@ export default function StatsScreen() {
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [listenedState, setListenedState] = useState(0);
   const [manualEntryTimestamp, setManualEntryTimestamp] = useState(null);
+  const [highlightedDates, setHighlightedDates] = useState([]);
+  
+  console.log('manualTime',manualEntryTimestamp)
+
+
+  useEffect(() => {
+    const today = new Date();
+    const lastThreeDays = [];
+    for (let i = 2; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      lastThreeDays.push(date.getTime());
+    }
+    setHighlightedDates(lastThreeDays);
+  }, []);
+console.log('highlightedDates',highlightedDates)
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
@@ -46,7 +62,7 @@ export default function StatsScreen() {
             </Card>
           </ScrollView>
          </View>
-         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp} />
+         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp}  highlightedDates={highlightedDates}/>
             {manualEntryTimestamp !== null && (
                 <ManualEntry
                     timestamp={manualEntryTimestamp}

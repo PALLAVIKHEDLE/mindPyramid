@@ -1,18 +1,16 @@
 import React from  'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import dayjs from 'dayjs';
 import { Calendar as DefaultCalendar } from 'react-native-calendars';
 import Colors from '../../../style/colors';
 
-const CalendarScreen = ({ setManualEntryTimestamp }) => {
- 
-  const today = dayjs().format('YYYY-MM-DD');
-  const markedDates = {
-    [today]: {
-      marked: true,
-    },
-   
-  };
+const CalendarScreen = ({ setManualEntryTimestamp,highlightedDates }) => {
+  const markedDates = {};
+
+  highlightedDates.forEach(date => {
+    const formattedDate = dayjs(date).format('YYYY-MM-DD');
+    markedDates[formattedDate] = { marked: true, selected:true };
+  });
 
 const onManualInput = ({ day, month, year }) => {
     console.log('DATE select', day, month, year)
@@ -24,23 +22,22 @@ const onManualInput = ({ day, month, year }) => {
     }
   }
 
-
   return (
     <DefaultCalendar
       style={styles.calendar}
-      // markedDates={markedDates}
+      markedDates={markedDates}
       onDayPress={onManualInput}
       theme={{
         backgroundColor: 'white',
         calendarBackground: 'white',
         textSectionTitleColor: Colors.lightBlue,
         selectedDayBackgroundColor: Colors.lightBlue,
-        selectedDayTextColor: 'black',
+        selectedDayTextColor: 'white',
         todayTextColor: Colors.lightBlue,
         dayTextColor: 'black',
         textDisabledColor: '#d9e1e8',
-        dotColor: Colors.lightBlue,
-        selectedDotColor: 'white',
+        dotColor: Colors.activeColor,
+        selectedDotColor: Colors.lightBlue,
         arrowColor: 'black',
         monthTextColor: 'black',
         indicatorColor: Colors.lightBlue,
@@ -49,7 +46,7 @@ const onManualInput = ({ day, month, year }) => {
         textDayHeaderFontWeight: '300',
         textDayFontSize: 16,
         textMonthFontSize: 16,
-        textDayHeaderFontSize: 16,
+        textDayHeaderFontSize: 15,
       }}
     />
   );
@@ -64,6 +61,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
+
 });
 
 export default CalendarScreen;
