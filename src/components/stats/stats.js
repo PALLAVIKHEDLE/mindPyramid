@@ -15,21 +15,46 @@ export default function StatsScreen() {
   const [listenedState, setListenedState] = useState(0);
   const [manualEntryTimestamp, setManualEntryTimestamp] = useState(null);
   const [highlightedDates, setHighlightedDates] = useState([]);
-  
-  console.log('manualTime',manualEntryTimestamp)
-
+  const [meditationStatus, setMeditationStatus] = useState([]);
 
   useEffect(() => {
     const today = new Date();
-    const lastThreeDays = [];
-    for (let i = 2; i >= 0; i--) {
+    const lastSevenDays = [];
+    const lastSevenStatus = [];
+
+    // Initialize status for last 7 days with all days being false (not meditated)
+    for (let i = 15; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
-      lastThreeDays.push(date.getTime());
+      lastSevenDays.push(date.getTime());
+      lastSevenStatus.push(false);
     }
-    setHighlightedDates(lastThreeDays);
+    setHighlightedDates(lastSevenDays);
+    setMeditationStatus(lastSevenStatus);
   }, []);
-console.log('highlightedDates',highlightedDates)
+console.log('HighlightedDates',highlightedDates)
+  useEffect(() => {
+    // Calculate streak from meditationStatus array
+    let streakCount = 0;
+    for (let i = 0; i < meditationStatus.length; i++) {
+      if (meditationStatus[i]) {
+        streakCount++;
+      } else {
+        break; // Break the streak if any day is missed
+      }
+    }
+    setStreak(streakCount);
+  }, [meditationStatus]);
+
+  const handleMeditationDone = (timestamp) => {
+    // Update the status for the corresponding date
+    const index = highlightedDates.findIndex((date) => date === timestamp);
+    if (index !== -1) {
+      const updatedStatus = [...meditationStatus];
+      updatedStatus[index] = true;
+      setMeditationStatus(updatedStatus);
+    }
+  };
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
@@ -62,7 +87,9 @@ console.log('highlightedDates',highlightedDates)
             </Card>
           </ScrollView>
          </View>
-         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp}  highlightedDates={highlightedDates}/>
+         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp}  highlightedDates={highlightedDates}
+           onDateSelected={handleMeditationDone}
+         />
             {manualEntryTimestamp !== null && (
                 <ManualEntry
                     timestamp={manualEntryTimestamp}
