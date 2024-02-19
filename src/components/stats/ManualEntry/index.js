@@ -2,39 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, TextInput } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import Colors from '../../../style/colors';
-import { MS_PER_MINUTE } from '../../../constants/units';
 
-const ManualEntry = ({ onDismiss }) => {
+const ManualEntry = ({ onDismiss, updateMarkedDates, markedDates ,selectedDate}) => {
   const [duration, setDuration] = useState('');
   const [defaultValue, setDefaultValue] = useState('');
 
-  console.log('duration', duration)
-
-  //   useEffect(() => {
-  //   if (!timestamp) {
-  //     return;
-  //   }
-
-  //   const newDuration = activity[timestamp]?.duration || -1;
-  //   setDuration(newDuration);
-  //   setDefaultValue(newDuration === -1 ? '' : Math.floor(newDuration / MS_PER_MINUTE).toString());
-  // }, [activity, timestamp]);
+  useEffect(() => {
+    const selectedDateData = markedDates.find(date => date.date === selectedDate);
+    if (selectedDateData) {
+      setDefaultValue(selectedDateData.duration.toString()); 
+    } else {
+      setDefaultValue(''); 
+    }
+  }, [selectedDate, markedDates]);
 
   const onChangeText = (text) => {
     const value = Number(text);
-
     if (text === '' || Number.isNaN(value)) {
       setDuration(-1);
       return;
     }
-
-    setDuration(value * MS_PER_MINUTE);
+    setDuration(value);
   };
 
   const onSubmit = () => {
-    if (duration < 0) {
+    if (duration < 0 || !selectedDate) {
       return;
     }
+    const newMarkedDate = {
+      date: selectedDate,
+      duration: duration,
+      remarks: 'Some remarks' 
+    };
+    updateMarkedDates(newMarkedDate);
     onDismiss();
   };
 
@@ -61,7 +61,7 @@ const ManualEntry = ({ onDismiss }) => {
         </TouchableOpacity>
         <TouchableOpacity
          style={[styles.activeButton, duration < 0 ? styles.disableButton : null]}
-          onPress={onSubmit}
+          onPress={()=>onSubmit()}
           disabled={duration < 0}
         >
           <Text style={styles.buttonText}>Submit</Text>

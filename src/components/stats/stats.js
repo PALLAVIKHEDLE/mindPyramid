@@ -14,7 +14,17 @@ export default function StatsScreen() {
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [listenedState, setListenedState] = useState(0);
   const [manualEntryTimestamp, setManualEntryTimestamp] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); 
+  const [markedDates, setMarkedDates] = useState([
+    { date: '2024-02-15', duration: 5, remarks: 'I felt good' },
+    { date: '2024-02-12', duration: 5, remarks: 'I felt good' },
+    { date: '2024-02-13', duration: 5, remarks: 'I felt good' },
+    { date: '2024-02-17', duration: 5, remarks: 'I felt good' }
+  ]);
 
+  const addMarkedDate = (newMarkedDate) => {
+    setMarkedDates(prevMarkedDates => [...prevMarkedDates, newMarkedDate]);
+  };
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
@@ -47,11 +57,14 @@ export default function StatsScreen() {
             </Card>
           </ScrollView>
          </View>
-         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp}/>
+         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp} markedDates={markedDates}  setSelectedDate={setSelectedDate} />
             {manualEntryTimestamp !== null && (
                 <ManualEntry
                     timestamp={manualEntryTimestamp}
                     onDismiss={() => setManualEntryTimestamp(null)}
+                    updateMarkedDates={addMarkedDate} 
+                    markedDates={markedDates}
+                    selectedDate={selectedDate} 
                 />
             )}
           </LinearGradient>
