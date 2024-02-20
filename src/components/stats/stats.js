@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { AntDesign as Icon } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
+import StreakContext from './streakContext';
+
 
 import Calendar from './Calendar';
 import ManualEntry from './ManualEntry';
@@ -11,20 +13,51 @@ export default function StatsScreen() {
   const [totalSessions, setTotalSessions] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [totalMinutes, setTotalMinutes] = useState(0);
-  const [listenedState, setListenedState] = useState(0);
   const [manualEntryTimestamp, setManualEntryTimestamp] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null); 
-  const [markedDates, setMarkedDates] = useState([
-    { date: '2024-02-15', duration: 5, remarks: 'I felt good' },
-    { date: '2024-02-12', duration: 5, remarks: 'I felt good' },
-    { date: '2024-02-13', duration: 5, remarks: 'I felt good' },
-    { date: '2024-02-17', duration: 5, remarks: 'I felt good' }
-  ]);
+ 
+  const { markedDates } = useContext(StreakContext); 
 
-  const addMarkedDate = (newMarkedDate) => {
-    setMarkedDates(prevMarkedDates => [...prevMarkedDates, newMarkedDate]);
-  };
+  useEffect(() => {
+    let currentStreak = 0;
+    let currentDate = null;
+  
+    // Sort the markedDates array by date
+    const sortedDates = markedDates.sort((a, b) => new Date(a.date) - new Date(b.date));
+  
+    // Loop through sorted dates to find the streak
+    sortedDates.forEach(date => {
+      const timestamp = new Date(date.date).getTime();
+  
+      // If currentDate is null, set it and increment streak
+      if (!currentDate) {
+        currentDate = timestamp;
+        currentStreak++;
+      } else {
+        // If the current date is consecutive, increment streak
+        if (timestamp - currentDate === 86400000) { // 86400000 milliseconds = 1 day
+          currentStreak++;
+          currentDate = timestamp;
+        } else {
+          // If not consecutive, reset streak
+          currentStreak = 1;
+          currentDate = timestamp;
+        }
+      }
+    });
+  
+    // Set the streak state
+    setStreak(currentStreak);
+  
+    // Calculate total sessions and total duration
+    setTotalSessions(sortedDates.length);
+    const meditationTime = sortedDates.reduce((acc, curr) => acc + curr.duration, 0);
+    setTotalDuration(meditationTime);
+  
+  }, [markedDates]);
+  
+  
+
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
@@ -52,18 +85,17 @@ export default function StatsScreen() {
               <Card.Content style={styles.cardContent}>
                 <Icon name="clockcircleo" style={styles.icon} size={30}  />
                 <Paragraph style={styles.pStyle}>Time Meditating</Paragraph>
-                <Title style={{color:'white'}}>{listenedState}</Title>
+                <Title style={{color:'white'}}>{totalDuration}</Title>
               </Card.Content>
             </Card>
           </ScrollView>
          </View>
-         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp} markedDates={markedDates}  setSelectedDate={setSelectedDate} />
+         <Calendar  setManualEntryTimestamp={setManualEntryTimestamp}
+           setSelectedDate={setSelectedDate} />
             {manualEntryTimestamp !== null && (
                 <ManualEntry
                     timestamp={manualEntryTimestamp}
                     onDismiss={() => setManualEntryTimestamp(null)}
-                    updateMarkedDates={addMarkedDate} 
-                    markedDates={markedDates}
                     selectedDate={selectedDate} 
                 />
             )}
