@@ -29,20 +29,19 @@ export default function StatsScreen() {
     sortedDates.forEach(date => {
       const timestamp = new Date(date.date).getTime();
   
-      // If currentDate is null, set it and increment streak
       if (!currentDate) {
+        // If currentDate is null, set it and increment streak
         currentDate = timestamp;
         currentStreak++;
       } else {
-        // If the current date is consecutive, increment streak
+        // Check if the difference between the current date and previous date is exactly one day
         if (timestamp - currentDate === 86400000) { // 86400000 milliseconds = 1 day
           currentStreak++;
-          currentDate = timestamp;
-        } else {
-          // If not consecutive, reset streak
+        } else if (timestamp - currentDate > 86400000) {
+          // If there is a gap between dates, reset the streak count
           currentStreak = 1;
-          currentDate = timestamp;
         }
+        currentDate = timestamp;
       }
     });
   
