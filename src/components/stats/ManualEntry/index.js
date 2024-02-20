@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Dialog, TextInput } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import Colors from '../../../style/colors';
+import StreakContext from '../streakContext';
 
-const ManualEntry = ({ onDismiss, updateMarkedDates, markedDates ,selectedDate}) => {
+
+const ManualEntry = ({ onDismiss ,selectedDate}) => {
+  const { markedDates, addMarkedDate } = useContext(StreakContext); 
   const [duration, setDuration] = useState('');
   const [defaultValue, setDefaultValue] = useState('');
 
@@ -34,7 +37,7 @@ const ManualEntry = ({ onDismiss, updateMarkedDates, markedDates ,selectedDate})
       duration: duration,
       remarks: 'Some remarks' 
     };
-    updateMarkedDates(newMarkedDate);
+    addMarkedDate(newMarkedDate);
     onDismiss();
   };
 

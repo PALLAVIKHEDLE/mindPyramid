@@ -2,10 +2,12 @@ import React, {Fragment, Component} from 'react';
 import { StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import Colors from './style/colors';
 import RootNav from './routers/rootNav';
+import { StreakProvider } from './components/stats/streakContext';
 
 export default class App extends Component {
   render() {
     return (
+      <StreakProvider>
           <Fragment>
             <StatusBar
               barStyle="dark-content"
@@ -17,6 +19,7 @@ export default class App extends Component {
                <RootNav/> 
             </SafeAreaView>
           </Fragment>
+          </StreakProvider>
     );
   }
 }

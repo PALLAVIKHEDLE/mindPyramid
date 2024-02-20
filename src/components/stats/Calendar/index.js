@@ -1,9 +1,12 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Calendar as DefaultCalendar } from 'react-native-calendars';
 import Colors from '../../../style/colors';
+import StreakContext from '../streakContext';
 
-const CalendarScreen = ({ setManualEntryTimestamp,markedDates, setSelectedDate }) => {
+
+const CalendarScreen = ({ setManualEntryTimestamp, setSelectedDate }) => {
+  const { markedDates } = useContext(StreakContext); 
 
 const onManualInput = ({ day, month, year }) => {
   console.log('DATE select', day, month, year);
