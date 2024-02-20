@@ -11,6 +11,13 @@ export const StreakProvider = ({ children }) => {
     { date: '2024-02-17', duration: 5, remarks: 'I felt good' }
   ]);
 
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+const day = String(currentDate.getDate()).padStart(2, '0');
+  
+  const [timerData, setTimerData] = useState({ duration: 0, date:  (`${year}-${month}-${day}`) });
+
   useEffect(() => {
     const fetchMarkedDates = async () => {
       try {
@@ -42,8 +49,22 @@ export const StreakProvider = ({ children }) => {
     setMarkedDates(prevMarkedDates => [...prevMarkedDates, newMarkedDate]);
   };
 
+  const setTimer = (duration, date) => {
+    setTimerData({ duration, date });
+  };
+
+   // Add timer data to marked dates when timer completes
+   useEffect(() => {
+    if (timerData.date && timerData.duration > 0) {
+      const { date, duration } = timerData;
+      addMarkedDate({ date, duration, remarks: 'Timer completed' });
+      // Reset timer data after adding to marked dates
+      setTimerData({ duration: 0, date: null });
+    }
+  }, [timerData]);
+
   return (
-    <StreakContext.Provider value={{ markedDates, addMarkedDate }}>
+    <StreakContext.Provider value={{ markedDates, addMarkedDate, timerData, setTimer }}>
       {children}
     </StreakContext.Provider>
   );

@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Svg, { Circle, Text as SvgText } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { Picker } from "@react-native-picker/picker";
+import StreakContext from '../stats/streakContext';
 
 const TimerScreen = () => {
+  const { addMarkedDate, timerData } = useContext(StreakContext);
   const HOURS_LIMIT = 24;
   const MINUTES_LIMIT = 60;
   const SECONDS_LIMIT = 60;
@@ -65,10 +67,20 @@ const TimerScreen = () => {
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
+      { text: "OK",  onPress: () => {
+        addToStreak((hours * 3600 + minutes * 60 + seconds)/60);
+        reset();
+      },
+    },
     ]);
     reset();
   };
+
+  const addToStreak = (duration) => {  
+      const {  date } = timerData;
+    addMarkedDate({ date, duration, remarks: "Added from timer" });
+  };
+
 
   const resetVars = () => {
     setTimeLeft(0);

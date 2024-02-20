@@ -35,7 +35,11 @@ export default function StatsScreen() {
         currentStreak++;
       } else {
         // Check if the difference between the current date and previous date is exactly one day
-        if (timestamp - currentDate === 86400000) { // 86400000 milliseconds = 1 day
+        if (timestamp - currentDate === 86400000) { // The number 86400000 represents the number of milliseconds in one day.
+          // 1 second = 1000 milliseconds
+          // 1 minute = 60 seconds = 60 * 1000 milliseconds = 60000 milliseconds
+          // 1 hour = 60 minutes = 60 * 60000 milliseconds = 3600000 milliseconds
+          // 1 day = 24 hours = 24 * 3600000 milliseconds = 86400000 milliseconds
           currentStreak++;
         } else if (timestamp - currentDate > 86400000) {
           // If there is a gap between dates, reset the streak count
