@@ -16,10 +16,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.peace.mindpyramid"
-      },
+      "bundleIdentifier": "com.peace.mindpyramid",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app requires access to the camera to take photos.",
+        "NSMicrophoneUsageDescription": "This app requires access to the microphone to record audio."
+      }
+    },
     "android": {
       "package": "com.peace.mindpyramid",
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
