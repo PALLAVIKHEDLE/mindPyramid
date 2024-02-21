@@ -4,10 +4,14 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { Fontisto, FontAwesome, Entypo } from '@expo/vector-icons';
 import Colors from '../style/colors';
 
-import HomeScreen from '../components/home/home';
+// import HomeScreen from '../components/home/home';
+// import HomeScreen from '../components/home/homeAudio';
+import HomeScreen from '../components/home/PlayScreen';
+
 import SettingScreen from '../components/setting/setting';
 import TimerScreen from '../components/timer/timer';
 import StatsScreen from '../components/stats/stats';
+
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -35,6 +39,7 @@ export const TabNavigator = () => {
               ),
             }}
           />
+         
           <Tab.Screen
             name="Stats"
             component={StatsScreen}
@@ -61,6 +66,7 @@ export const TabNavigator = () => {
                 <FontAwesome name="gear" size={22} color={color} />
               ),
             }}
+
           />
         </Tab.Navigator>
     </View>
