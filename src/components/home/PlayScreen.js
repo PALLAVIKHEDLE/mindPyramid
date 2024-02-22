@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
   Image,
@@ -9,7 +8,6 @@ import {
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import Colors from "../../style/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 // Import images from assets folder
@@ -63,9 +61,8 @@ export default function PlayScreen() {
     setStoryList(stories);
   }, []);
 
-  const handleVideoPress = (videoId, thumbnailUrl) => {
-    console.log("handleVideoPress", videoId, thumbnailUrl);
-    // navigation.navigate("VideoPlayer", { videoId, thumbnailUrl });
+  const handleVideoPress = (videoId) => {
+    navigation.navigate("VideoPlayer", { videoId: videoId });
   };
 
   return (
@@ -95,7 +92,7 @@ export default function PlayScreen() {
         <TouchableOpacity
           key={index}
           style={styles.videoItem}
-          onPress={() => handleVideoPress(video.id.videoId, video.snippet.thumbnails.medium.url)}>
+          onPress={() => handleVideoPress(video.id.videoId)}>
           <Image
             source={{ uri: video.snippet.thumbnails.medium.url }}
             style={styles.thumbnail}

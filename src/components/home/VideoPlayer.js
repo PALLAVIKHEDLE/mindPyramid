@@ -1,28 +1,24 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import {YouTubePlayer} from 'react-native-youtube';
+import { Button } from 'react-native';
+import { WebView } from 'react-native-webview';
 
-const VideoPlayerScreen = ({ videoId }) => {
+const VideoPlayerScreen = ({ route, navigation }) => {
+  const { videoId } = route.params;
+  console.log('videoId',videoId)
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+
     return (
-        <View style={styles.container}>
-            <YouTubePlayer
-                videoID={videoId}
-                style={styles.videoPlayer}
-            />
-        </View>
+      <>
+      <WebView
+        source={{ uri: embedUrl }}
+        style={{ flex: 1 }}
+      />
+      <Button
+        title="Go Back"
+        onPress={() => navigation.goBack()}
+      />
+    </>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    videoPlayer: {
-        alignSelf: 'stretch',
-        aspectRatio: 16 / 9,
-    },
-});
 
 export default VideoPlayerScreen;
