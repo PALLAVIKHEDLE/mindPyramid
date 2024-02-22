@@ -4,7 +4,6 @@ import { WebView } from 'react-native-webview';
 
 const VideoPlayerScreen = ({ route, navigation }) => {
   const { videoId } = route.params;
-  console.log('videoId',videoId)
     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
 
     return (

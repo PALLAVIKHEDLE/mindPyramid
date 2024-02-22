@@ -22,6 +22,7 @@ import transcendentalImage from '../../assets/transcendental.jpeg'
 import lovingKindnessImage from '../../assets/Loving-Kindness.jpeg'
 import guidedImage from '../../assets/guided.jpeg'
 const API_KEY = "AIzaSyBDoueRdkSmBjjG0yquqIYypvCA13k3uGo";
+
 const SEARCH_QUERY = "nature sounds"; // Your search query
 
 export default function PlayScreen() {
