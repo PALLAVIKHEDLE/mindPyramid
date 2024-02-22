@@ -35,7 +35,7 @@ export const TabNavigator = () => {
             component={HomeScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <Fontisto name="home" size={20} color={color} />
+                <Fontisto name="home" size={24} color={color} />
               ),
             }}
           />
@@ -45,7 +45,7 @@ export const TabNavigator = () => {
             component={StatsScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <FontAwesome name="calendar" size={20} color={color} />
+                <FontAwesome name="calendar" size={24} color={color} />
               ),
             }}
           />
@@ -54,7 +54,7 @@ export const TabNavigator = () => {
             component={TimerScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <Entypo name="stopwatch" size={20} color={color} />
+                <Entypo name="stopwatch" size={24} color={color} />
               ),
             }}
           />
@@ -63,7 +63,7 @@ export const TabNavigator = () => {
             component={SettingScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <FontAwesome name="gear" size={22} color={color} />
+                <FontAwesome name="gear" size={24} color={color} />
               ),
             }}
 

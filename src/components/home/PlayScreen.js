@@ -1,43 +1,108 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
-import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+import Colors from "../../style/colors";
+import { LinearGradient } from "expo-linear-gradient";
 
-const API_KEY = 'AIzaSyBoDTPRS9QFCLQxTWZ9qOK0Zv4Z1VrR6ZM'; // Your YouTube Data API key
-const SEARCH_QUERY = 'nature sounds'; // Your search query
+// Import images from assets folder
+import natureImage from "../../assets/nature.jpeg";
+import bodyScanImage from "../../assets/bodyScan.jpeg";
+import mindfulnessImage from "../../assets/mindfullness.jpeg";
+import waterImage from "../../assets/water.jpeg";
+import yogaImage from '../../assets/yoga.jpeg'
+import movementImage from '../../assets/Movement.jpeg'
+import soundImage from '../../assets/sound.jpeg'
+import transcendentalImage from '../../assets/transcendental.jpeg'
+import lovingKindnessImage from '../../assets/Loving-Kindness.jpeg'
+import guidedImage from '../../assets/guided.jpeg'
+
+// const API_KEY = "YOUR_API_KEY";
+const SEARCH_QUERY = "nature sounds"; // Your search query
 
 export default function PlayScreen() {
   const navigation = useNavigation();
   const [videoList, setVideoList] = useState([]);
+  const [storyList, setStoryList] = useState([]); // Add state for story list
 
   useEffect(() => {
     // Fetch video data from YouTube API
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${SEARCH_QUERY}&key=${API_KEY}`
-        );
-        setVideoList(response.data.items);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${SEARCH_QUERY}&key=${API_KEY}`
+    //     );
+    //     setVideoList(response.data.items);
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
+
+    // Fetch story data
+    const stories = [
+        { id: 1, imageUrl: natureImage, text: "Nature" },
+        { id: 2, imageUrl: bodyScanImage, text: "Body Scan" },
+        { id: 3, imageUrl: mindfulnessImage, text: "Mindfulness" },
+        { id: 4, imageUrl: waterImage, text: "Water" },
+        { id: 5, imageUrl: guidedImage, text: "Guided" },
+        { id: 6, imageUrl: movementImage, text: "Movement" },
+        { id: 7, imageUrl: lovingKindnessImage, text: "Loving-Kindness" },
+        { id: 8, imageUrl: soundImage, text: "Sound" },
+        { id: 9, imageUrl: transcendentalImage, text: "Transcendental" },
+        { id: 10, imageUrl: yogaImage, text: "Yoga" },
+
+      ];
+
+    setStoryList(stories);
   }, []);
 
-  const handleVideoPress = (videoId,thumbnailUrl) => {
-    console.log('handleVideoPress',videoId,thumbnailUrl)
-    navigation.navigate('VideoPlayer', { videoId ,thumbnailUrl});
+  const handleVideoPress = (videoId, thumbnailUrl) => {
+    console.log("handleVideoPress", videoId, thumbnailUrl);
+    navigation.navigate("VideoPlayer", { videoId, thumbnailUrl });
   };
 
   return (
-    <View style={styles.container}>
-      {videoList.map((video,index) => (
+    <LinearGradient
+  colors={['#CADFED', '#EDF5F9']}
+  style={styles.container}
+>
+      {/* Horizontal scrollable list of stories */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {storyList.map((story) => (
+          <TouchableOpacity key={story.id} style={styles.storyItem}>
+            <Image
+              source={story.imageUrl} // Use imported image
+              style={styles.storyThumbnail}
+              onError={(error) =>
+                console.log("Image loading error:", error.nativeEvent.error)
+              }
+            />
+            <Text style={styles.storyText}>{story.text}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* List of videos */}
+      {videoList.map((video, index) => (
         <TouchableOpacity
           key={index}
           style={styles.videoItem}
-          onPress={() => handleVideoPress(video.id.videoId, video.snippet.thumbnails.medium.url)}>
+          onPress={() =>
+            handleVideoPress(
+              video.id.videoId,
+              video.snippet.thumbnails.medium.url
+            )
+          }
+        >
           <Image
             source={{ uri: video.snippet.thumbnails.medium.url }}
             style={styles.thumbnail}
@@ -45,23 +110,23 @@ export default function PlayScreen() {
           <Text style={styles.videoTitle}>{video.snippet.title}</Text>
         </TouchableOpacity>
       ))}
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   videoItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    width: '100%',
+    borderBottomColor: "#ccc",
+    width: "100%",
   },
   thumbnail: {
     width: 120,
@@ -70,5 +135,21 @@ const styles = StyleSheet.create({
   },
   videoTitle: {
     fontSize: 18,
+  },
+  storyItem: {
+    margin: 10,
+    alignItems: "center",
+  },
+  storyThumbnail: {
+    width: 75,
+    height: 75,
+    borderRadius: 40, 
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  storyText: {
+    marginTop: 5,
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
