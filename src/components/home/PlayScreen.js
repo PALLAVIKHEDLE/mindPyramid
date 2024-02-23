@@ -88,7 +88,7 @@ export default function PlayScreen() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-
+  
       {/* Video section */}
       <ScrollView style={styles.videoContainer}>
         {videoList.map((video, index) => (
