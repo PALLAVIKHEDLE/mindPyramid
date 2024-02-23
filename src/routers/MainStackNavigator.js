@@ -4,7 +4,7 @@ import { TabNavigator } from './TabNavigator';
 import loginScreen from '../components/login/login';
 import VideoPlayerScreen from '../components/home/VideoPlayer';
 import PopularMP3Screen from '../components/home/PopularMP3'
-import PlayScreen from '../components/home/PlayScreen';
+import PlayerScreen from '../components/home/PlayerScreen';
 
 
 const Stack = createStackNavigator();
@@ -33,8 +33,8 @@ export const MainStackNavigator = ({}) => {
       component={PopularMP3Screen}
     />
      <Stack.Screen
-      name="PlayScreen"
-      component={PlayScreen}
+      name="PlayerScreen"
+      component={PlayerScreen}
     />
   </Stack.Navigator>
   )}
