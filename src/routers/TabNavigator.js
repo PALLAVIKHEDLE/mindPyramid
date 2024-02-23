@@ -4,10 +4,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { Fontisto, FontAwesome, Entypo } from '@expo/vector-icons';
 import Colors from '../style/colors';
 
-// import HomeScreen from '../components/home/home';
-// import HomeScreen from '../components/home/homeAudio';
-import HomeScreen from '../components/home/PlayScreen';
 
+import HomeScreen from '../components/home/HomeScreen';
 import SettingScreen from '../components/setting/setting';
 import TimerScreen from '../components/timer/timer';
 import StatsScreen from '../components/stats/stats';
