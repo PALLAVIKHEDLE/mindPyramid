@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, FlatList, Text,ScrollView} from 'react-native';
+import { StyleSheet, FlatList, Text,ScrollView,View} from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
-import { LinearGradient } from "expo-linear-gradient";
 
 import Colors from '../../style/colors'
 import { meditations } from "./MeditationData";
@@ -65,8 +64,7 @@ function PopularMP3({ navigation }) {
   };
 
   return (
-    <LinearGradient
-    colors={["#CADFED", "#EDF5F9"]}
+    <View
     style={styles.container}
   >
     <ScrollView >
@@ -98,14 +96,14 @@ function PopularMP3({ navigation }) {
         keyExtractor={({ id }) => id}
       />
     </ScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding:8
+    margin:8
+
 
   },
   card: {

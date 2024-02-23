@@ -12,6 +12,7 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { stories } from "./MeditationData";
+import PopularMP3 from "./PopularMP3";
 
 // const API_KEY = "AIzaSyB4KLNvjwSM8pifgko4XXbSs16zCOnT6hU";
 
@@ -41,10 +42,8 @@ export default function HomeScreen() {
 
     fetchData();
   }, [selectedStory]);
-  // console.log('VideoList',videoList)
   // Function to handle story press
   const handleStoryPress = (story) => {
-    console.log("Story clicked:", story.text);
     setSelectedStory(story); // Set the selected story
   };
 
@@ -79,20 +78,9 @@ export default function HomeScreen() {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        {/* Popular MP3 Card */}
-        <TouchableOpacity
-          style={[styles.popularMP3Container]}
-          onPress={() => navigation.navigate("PopularMP3Screen")} 
-        >
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.popularMP3Image}
-            resizeMode="contain"
-          />
-          <Text style={styles.popularMP3Text}>Popular MP3</Text>
-        </TouchableOpacity>
+        <PopularMP3 navigation={navigation}/>
         {/* Video section */}
-        <ScrollView style={styles.videoContainer}>
+        {/* <ScrollView style={styles.videoContainer}>
           {videoList.map((video, index) => (
             <TouchableOpacity
               key={index}
@@ -106,7 +94,7 @@ export default function HomeScreen() {
               <Text style={styles.videoTitle}>{video.snippet.title}</Text>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </ScrollView> */}
       </ScrollView>
     </LinearGradient>
   );
