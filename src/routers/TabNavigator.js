@@ -37,7 +37,7 @@ export const TabNavigator = () => {
               ),
             }}
           />
-         
+      
           <Tab.Screen
             name="Stats"
             component={StatsScreen}

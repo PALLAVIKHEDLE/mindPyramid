@@ -8,8 +8,10 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import Colors from '../../style/colors';
 
-const PlayerScreen = ({ route, navigation }) => {
-  const { title, image, audio } = route.params;
+const PlayerScreen = ({ route }) => {
+
+  const { title, image, uri } = route.params;
+  console.log('audio',uri)
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [positionTime, setPositionTime] = useState('00:00');
@@ -49,9 +51,10 @@ const PlayerScreen = ({ route, navigation }) => {
   const playSound = async () => {
     try {
       const { sound } = await Audio.Sound.createAsync(
-        { uri: audio },
+        { uri: uri },
         { shouldPlay: true }
       );
+      console.log('sound',sound)
       setSound(sound);
       setIsPlaying(true);
     } catch (error) {
@@ -117,9 +120,7 @@ const PlayerScreen = ({ route, navigation }) => {
         <Text style={styles.time}>{positionTime}</Text>
         <Text style={styles.time}>{durationTime}</Text>
       </View>
-      <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-        <MaterialIcons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
+
     </LinearGradient>
   );
 };
@@ -162,12 +163,7 @@ const styles = StyleSheet.create({
   time: {
     color: 'black',
     fontSize: 16,
-  },
-  goBackButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
+  }
 });
 
 export default PlayerScreen;

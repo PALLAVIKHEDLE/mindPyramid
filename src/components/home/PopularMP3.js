@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, FlatList, Text, View ,TouchableOpacity,ScrollView} from 'react-native';
+import { StyleSheet, FlatList, Text,ScrollView} from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialIcons } from '@expo/vector-icons';
 
 import Colors from '../../style/colors'
 import { meditations } from "./MeditationData";
@@ -19,7 +18,7 @@ function PopularMP3({ navigation }) {
           navigation.navigate('PlayerScreen', {
             title: item.title,
             image: item.image,
-            audio: item.uri,
+            uri: item.uri,
           })
         }
       >
@@ -46,7 +45,7 @@ function PopularMP3({ navigation }) {
           navigation.navigate('PlayerScreen', {
             title: item.title,
             image: item.image,
-            audio: item.audio,
+            uri: item.uri,
           })
         }
       >
@@ -71,9 +70,6 @@ function PopularMP3({ navigation }) {
     style={styles.container}
   >
     <ScrollView >
-    <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
       <Text style={styles.title}>POPULAR</Text>
       <FlatList
         style={styles.cards}
@@ -111,18 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding:8
 
-  },
-  goBackButton: {
-    alignSelf: 'flex-start',
-    marginLeft: 10,
-    marginBottom: 10,
-    padding: 5,
-    backgroundColor: Colors.grey,
-    borderRadius: 5,
-  },
-  goBackText: {
-    color: '#fff',
-    fontSize: 16,
   },
   card: {
     width: 250,
