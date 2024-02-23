@@ -5,32 +5,17 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
 
-
 import Colors from '../../style/colors';
 
 const PlayerScreen = ({ route }) => {
-
   const { title, image, uri } = route.params;
-  console.log('audio',uri)
+
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [positionTime, setPositionTime] = useState('00:00');
   const [durationTime, setDurationTime] = useState('00:00');
-
-  useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
-
-  useEffect(() => {
-    if (sound) {
-      sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-    }
-  }, [sound]);
-
+  const [isLoadingAudio, setIsLoadingAudio] = useState(true);
+ 
   const onPlaybackStatusUpdate = (status) => {
     if (status.isLoaded && !status.isPlaying) {
       setIsPlaying(false);
@@ -41,6 +26,47 @@ const PlayerScreen = ({ route }) => {
     setDurationTime(formatTime(duration));
   };
 
+  useEffect(() => {
+    const loadAudio = async () => {
+      let filename = uri.split('/').pop() ?? '';
+      setIsLoadingAudio(true);
+
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
+      });
+
+      try {
+        const { sound: soundObject } = await Audio.Sound.createAsync(
+          { uri },
+          {},
+          onPlaybackStatusUpdate
+        );
+        setSound(soundObject);
+      } catch (error) {
+        console.log('Error loading audio:', error);
+      }
+
+      setIsLoadingAudio(false);
+    };
+
+    loadAudio();
+  }, [uri]);
+
+  useEffect(() => {
+    if (sound) {
+      const updatePlaybackStatus = (status) => {
+        onPlaybackStatusUpdate(status);
+      };
+
+      sound.setOnPlaybackStatusUpdate(updatePlaybackStatus);
+
+      return () => {
+        sound.unloadAsync(); // Unload sound when component unmounts
+      };
+    }
+  }, [sound]);
+
   const formatTime = (milliseconds) => {
     const seconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -50,12 +76,7 @@ const PlayerScreen = ({ route }) => {
 
   const playSound = async () => {
     try {
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: uri },
-        { shouldPlay: true }
-      );
-      console.log('sound',sound)
-      setSound(sound);
+      await sound.playAsync();
       setIsPlaying(true);
     } catch (error) {
       console.log('Error playing sound: ', error);
@@ -101,9 +122,9 @@ const PlayerScreen = ({ route }) => {
 
   return (
     <LinearGradient
-    colors={["#CADFED", "#EDF5F9"]}
-    style={styles.container}
-  >
+      colors={["#CADFED", "#EDF5F9"]}
+      style={styles.container}
+    >
       <Image source={image} style={styles.thumbnail} resizeMode="contain" />
       <Text style={styles.title}>{title}</Text>
       <View style={styles.controls}>

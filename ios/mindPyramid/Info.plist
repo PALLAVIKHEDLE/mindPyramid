@@ -23,7 +23,7 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Used to play audio.</string>
+    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
     <key>NSAudioAlwaysUsageDescription</key>
     <string>Used to play audio.</string>
     <key>CFBundleURLTypes</key>

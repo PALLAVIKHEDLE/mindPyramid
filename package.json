@@ -25,7 +25,6 @@
     "dayjs": "^1.11.10",
     "expo": "^49.0.23",
     "expo-auth-session": "~4.0.3",
-    "expo-av": "^13.10.5",
     "expo-crypto": "~12.2.1",
     "expo-linear-gradient": "~12.7.1",
     "expo-status-bar": "~1.4.4",
@@ -42,7 +41,8 @@
     "react-native-svg": "14.1.0",
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.18.10",
-    "react-native-webview": "13.2.2"
+    "react-native-webview": "13.2.2",
+    "expo-av": "~13.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
