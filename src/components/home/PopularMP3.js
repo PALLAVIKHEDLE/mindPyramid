@@ -10,8 +10,6 @@ import { meditations } from "./MeditationData";
 
 
 function PopularMP3({ navigation }) {
-
-
   const renderPopularCard = ({ item }) => {
     return (
       <Card
@@ -21,7 +19,7 @@ function PopularMP3({ navigation }) {
           navigation.navigate('PlayerScreen', {
             title: item.title,
             image: item.image,
-            audio: item.audio,
+            audio: item.uri,
           })
         }
       >

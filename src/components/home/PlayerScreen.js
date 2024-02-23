@@ -109,6 +109,9 @@ const PlayerScreen = ({ route, navigation }) => {
           <AntDesign name={isPlaying ? 'pausecircle' : 'playcircleo'} size={60} color="black" />
         </TouchableOpacity>
         <AntDesign name="stepforward" size={30} onPress={forward} />
+        <TouchableOpacity onPress={stopSound}>
+          <MaterialIcons name="stop" size={40}  />
+        </TouchableOpacity>
       </View>
       <View style={styles.timeContainer}>
         <Text style={styles.time}>{positionTime}</Text>
