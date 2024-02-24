@@ -1,4 +1,4 @@
-export const VideoList = [
+ export default  VideoList = [
     {
       "etag": "nz-FVw7usNKOY3bZVkWArDBtMcM",
       "id": {
@@ -96,3 +96,5 @@ export const VideoList = [
       }
     }
   ];
+
+ 
