@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text,StyleSheet } from "react-native";
 import Colors from "../../style/colors";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 const SettingScreen = ({ navigation }) => {
 
   return (
     <>
-      <View
-        style={{ justifyContent: "center", alignItems: "flex-end", margin: 10 }}>
+       <LinearGradient
+      colors={["#CADFED", "#EDF5F9"]}
+      style={styles.container}
+    >
         <TouchableOpacity>
           <Text
             style={{
@@ -23,10 +26,18 @@ const SettingScreen = ({ navigation }) => {
             Setting Screen
           </Text>
         </TouchableOpacity>
-      </View>
+        </LinearGradient>
      
     </>
   );
 };
 
 export default SettingScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+});

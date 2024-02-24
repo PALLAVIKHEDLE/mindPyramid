@@ -4,10 +4,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { Fontisto, FontAwesome, Entypo } from '@expo/vector-icons';
 import Colors from '../style/colors';
 
-// import HomeScreen from '../components/home/home';
-// import HomeScreen from '../components/home/homeAudio';
-import HomeScreen from '../components/home/PlayScreen';
 
+import HomeScreen from '../components/home/HomeScreen';
 import SettingScreen from '../components/setting/setting';
 import TimerScreen from '../components/timer/timer';
 import StatsScreen from '../components/stats/stats';
@@ -35,17 +33,17 @@ export const TabNavigator = () => {
             component={HomeScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <Fontisto name="home" size={20} color={color} />
+                <Fontisto name="home" size={24} color={color} />
               ),
             }}
           />
-         
+      
           <Tab.Screen
             name="Stats"
             component={StatsScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <FontAwesome name="calendar" size={20} color={color} />
+                <FontAwesome name="calendar" size={24} color={color} />
               ),
             }}
           />
@@ -54,7 +52,7 @@ export const TabNavigator = () => {
             component={TimerScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <Entypo name="stopwatch" size={20} color={color} />
+                <Entypo name="stopwatch" size={24} color={color} />
               ),
             }}
           />
@@ -63,7 +61,7 @@ export const TabNavigator = () => {
             component={SettingScreen}
             options={{
               tabBarIcon: ({ color }) => (
-                <FontAwesome name="gear" size={22} color={color} />
+                <FontAwesome name="gear" size={24} color={color} />
               ),
             }}
 

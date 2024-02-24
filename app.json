@@ -26,7 +26,10 @@
       "package": "com.peace.mindpyramid",
       "permissions": [
         "CAMERA",
-        "RECORD_AUDIO"
+          "AUDIO_RECORDING",
+          "RECORD_AUDIO",
+          "READ_EXTERNAL_STORAGE",
+          "WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

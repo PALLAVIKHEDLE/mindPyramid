@@ -3,29 +3,52 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TabNavigator } from './TabNavigator';
 import loginScreen from '../components/login/login';
 import VideoPlayerScreen from '../components/home/VideoPlayer';
+import PopularMP3Screen from '../components/home/PopularMP3';
+import PlayerScreen from '../components/home/PlayerScreen';
+
 
 
 const Stack = createStackNavigator();
 
-export const MainStackNavigator = ({}) => {
+export const MainStackNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator
-    initialRouteName='login'
-    headerMode='none'
-    mode='card'
-  >
-    <Stack.Screen
-      name='login'
-      component={loginScreen}
-    />
-    <Stack.Screen
-      name='Home'
-      component={TabNavigator}
-    />
-    <Stack.Screen
-      name='VideoPlayer'
-      component={VideoPlayerScreen}
-
-    />
-  </Stack.Navigator>
-  )}
+      initialRouteName='login'
+      mode='card'
+      screenOptions={{
+        headerShown: true,
+        headerBackTitleVisible: false,
+        headerTintColor: 'black',
+        headerStyle: {
+          backgroundColor: '#CADFED', 
+        }, 
+      }}
+    >
+      <Stack.Screen
+        name='login'
+        component={loginScreen}
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen
+        name='Home'
+        component={TabNavigator}
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen
+        name='VideoPlayer'
+        component={VideoPlayerScreen}
+        options={{ title: 'Video Player' }} 
+      />
+      <Stack.Screen
+        name='PopularMP3Screen'
+        component={PopularMP3Screen}
+        options={{ title: 'Popular MP3' }} 
+      />
+      <Stack.Screen
+        name='PlayerScreen'
+        component={PlayerScreen}
+        options={{ title: 'Player' }} 
+      />
+    </Stack.Navigator>
+  );
+};
