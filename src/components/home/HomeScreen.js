@@ -5,16 +5,16 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  View,
-  Dimensions,
+  Dimensions
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { stories } from "./MeditationData";
 import PopularMP3 from "./PopularMP3";
+import YoutubeVideo from "./youtubeVideo"
 
-// const API_KEY = "AIzaSyB4KLNvjwSM8pifgko4XXbSs16zCOnT6hU";
+const API_KEY = "YOUR_YOUTUBE_API_KEY"; // Replace with your API key
 
 export default function HomeScreen() {
   const popularMP3ImageWidth = Dimensions.get("window").width;
@@ -23,6 +23,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [videoList, setVideoList] = useState([]);
   const [selectedStory, setSelectedStory] = useState(null);
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   // Fetch data from YouTube API and set state
   useEffect(() => {
@@ -42,9 +43,11 @@ export default function HomeScreen() {
 
     fetchData();
   }, [selectedStory]);
+
   // Function to handle story press
   const handleStoryPress = (story) => {
     setSelectedStory(story); // Set the selected story
+    setShowVideoModal(true); // Show the video modal
   };
 
   // Function to handle video press
@@ -78,29 +81,16 @@ export default function HomeScreen() {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        <PopularMP3 navigation={navigation}/>
-        {/* Video section */}
-        {/* <ScrollView style={styles.videoContainer}>
-          {videoList.map((video, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.videoItem}
-              onPress={() => handleVideoPress(video.id.videoId)}
-            >
-              <Image
-                source={{ uri: video.snippet.thumbnails.medium.url }}
-                style={styles.thumbnail}
-              />
-              <Text style={styles.videoTitle}>{video.snippet.title}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView> */}
+        <PopularMP3 navigation={navigation} />
       </ScrollView>
+       <YoutubeVideo showVideoModal={showVideoModal} setShowVideoModal={setShowVideoModal} videoList={videoList} handleVideoPress={handleStoryPress}/>
+  
     </LinearGradient>
+
   );
 }
+
 const windowWidth = Dimensions.get("window").width;
-const popularMP3ContainerWidth = windowWidth - 20;
 
 const styles = StyleSheet.create({
   container: {
@@ -126,9 +116,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
   },
-  videoContainer: {
+  modalContainer: {
     flex: 1,
-    width: "100%",
+    width:'100%',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: '80%', 
+  },
+  videoContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
   },
   videoItem: {
     flexDirection: "row",
@@ -136,7 +138,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-    width: "100%",
   },
   thumbnail: {
     width: 120,
@@ -145,19 +146,5 @@ const styles = StyleSheet.create({
   },
   videoTitle: {
     fontSize: 18,
-  },
-  popularMP3Container: {
-    alignItems: "center",
-    width: popularMP3ContainerWidth,
-  },
-  popularMP3Image: {
-    width: popularMP3ContainerWidth,
-    height: 260,
-    marginBottom: 5,
-  },
-  popularMP3Text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: 10,
   },
 });
