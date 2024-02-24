@@ -5,6 +5,9 @@ import videoList from './VideoList'
 
 const YoutubeScreen = ({ navigation }) => {
     // const videoList = navigation.getParam('videoList', []); 
+    const handleVideoPress = (videoId) => {
+        navigation.navigate("VideoPlayer", { videoId: videoId });
+      };
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
       <ScrollView>
