@@ -5,6 +5,7 @@ import loginScreen from '../components/login/login';
 import VideoPlayerScreen from '../components/home/VideoPlayer';
 import PopularMP3Screen from '../components/home/PopularMP3';
 import PlayerScreen from '../components/home/PlayerScreen';
+import YoutubeScreen from '../components/home/youtubeVideo'
 
 
 
@@ -48,6 +49,11 @@ export const MainStackNavigator = ({ navigation }) => {
         name='PlayerScreen'
         component={PlayerScreen}
         options={{ title: 'Player' }} 
+      />
+        <Stack.Screen
+        name='YoutubeScreen'
+        component={YoutubeScreen}
+        options={{ title: 'Youtube Video' }} 
       />
     </Stack.Navigator>
   );
