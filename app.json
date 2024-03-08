@@ -26,10 +26,10 @@
       "package": "com.peace.mindpyramid",
       "permissions": [
         "CAMERA",
-          "AUDIO_RECORDING",
-          "RECORD_AUDIO",
-          "READ_EXTERNAL_STORAGE",
-          "WRITE_EXTERNAL_STORAGE"
+        "AUDIO_RECORDING",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -38,6 +38,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cbfb0e74-586c-4c23-bc04-7146d6b32ae6"
+      }
     }
   }
 }
