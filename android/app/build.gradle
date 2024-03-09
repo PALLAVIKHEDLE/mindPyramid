@@ -99,7 +99,13 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-        }
+        },
+        release {
+        storeFile file("../../@pallavikhedle__mindpyramid.bak.jks")
+        storePassword "b38f786459db4a52b1a74455e5c69e01"
+        keyAlias "QHBhbGxhdmlraGVkbGUvbWluZHB5cmFtaWQ="
+        keyPassword "d5619662c53f42178d1e95bb73ca7a20"
+    }
     }
     buildTypes {
         debug {
