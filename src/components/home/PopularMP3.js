@@ -1,11 +1,23 @@
 import React from 'react';
-import { StyleSheet, FlatList, Text,ScrollView,View} from 'react-native';
+import { StyleSheet, FlatList, Text, ScrollView, View, TouchableOpacity } from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
+import Colors from '../../style/colors';
+import { meditations } from './MeditationData';
+import * as FileSystem from 'expo-file-system';
+import { Octicons } from '@expo/vector-icons'
 
-import Colors from '../../style/colors'
-import { meditations } from "./MeditationData";
+const handleDownload = async (uri) => {
+  try {
+    const downloadDir = FileSystem.documentDirectory;
+    const filePath = `${downloadDir}meditation.mp3`;
 
+    const { uri: downloadedUri } = await FileSystem.downloadAsync(uri, filePath);
 
+    console.log('File downloaded to:', downloadedUri);
+  } catch (error) {
+    console.error('Download error:', error);
+  }
+};
 
 function PopularMP3({ navigation }) {
   const renderPopularCard = ({ item }) => {
@@ -30,7 +42,9 @@ function PopularMP3({ navigation }) {
         />
         <Card.Content style={styles.cardContent}>
           <Paragraph style={styles.cardParagraph}>{item.time} minutes</Paragraph>
-          {/* <DownloadButton id={item.id} style={styles.downloadButton} /> */}
+          <TouchableOpacity onPress={() => handleDownload(item.uri)} style={styles.downloadButton}>
+              <Octicons name="download" size={24} color={Colors.lightBlue} />
+          </TouchableOpacity>
         </Card.Content>
       </Card>
     );
@@ -57,58 +71,56 @@ function PopularMP3({ navigation }) {
         />
         <Card.Content style={styles.cardContent}>
           <Paragraph style={styles.cardParagraph}>{item.time} minutes</Paragraph>
-          {/* <DownloadButton id={item.id} style={styles.downloadButton} /> */}
+          <TouchableOpacity onPress={() => handleDownload(item.uri)} style={styles.downloadButton}>
+              <Octicons name="download" size={24} color={Colors.lightBlue} />
+          </TouchableOpacity>
         </Card.Content>
       </Card>
     );
   };
 
   return (
-    <View
-    style={styles.container}
-  >
-    <ScrollView >
-      <Text style={styles.title}>POPULAR</Text>
-      <FlatList
-        style={styles.cards}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={meditations.popular}
-        renderItem={renderPopularCard}
-        keyExtractor={({ id }) => id}
-      />
-      <Text style={styles.title}>ANXIETY</Text>
-      <FlatList
-        style={styles.cards}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={meditations.anxiety}
-        renderItem={renderCard}
-        keyExtractor={({ id }) => id}
-      />
-      <Text style={styles.title}>SLEEP</Text>
-      <FlatList
-        style={styles.cards}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={meditations.sleep}
-        renderItem={renderCard}
-        keyExtractor={({ id }) => id}
-      />
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView>
+        <Text style={styles.title}>POPULAR</Text>
+        <FlatList
+          style={styles.cards}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={meditations.popular}
+          renderItem={renderPopularCard}
+          keyExtractor={({ id }) => id}
+        />
+        <Text style={styles.title}>ANXIETY</Text>
+        <FlatList
+          style={styles.cards}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={meditations.anxiety}
+          renderItem={renderCard}
+          keyExtractor={({ id }) => id}
+        />
+        <Text style={styles.title}>SLEEP</Text>
+        <FlatList
+          style={styles.cards}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={meditations.sleep}
+          renderItem={renderCard}
+          keyExtractor={({ id }) => id}
+        />
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    margin:8
-
-
+    margin: 8,
   },
   card: {
     width: 250,
-    height:'auto',
+    height: 'auto',
     marginRight: 10,
   },
   cardTitle: {

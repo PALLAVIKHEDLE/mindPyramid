@@ -64,7 +64,7 @@ const day = String(currentDate.getDate()).padStart(2, '0');
   }, [timerData]);
 
   return (
-    <StreakContext.Provider value={{ markedDates, addMarkedDate, timerData, setTimer }}>
+    <StreakContext.Provider value={{ markedDates, addMarkedDate, timerData, setTimer ,setMarkedDates}}>
       {children}
     </StreakContext.Provider>
   );
