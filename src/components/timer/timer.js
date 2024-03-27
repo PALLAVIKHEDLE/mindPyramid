@@ -61,7 +61,7 @@ const TimerScreen = () => {
 
   const timeIsUp = () => {
     clearInterval(timerInterval.current);
-    Alert.alert("Alert Title", "Do you want to add this in streak?", [
+    Alert.alert("Add Streak", "Do you want to add this in streak?", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),

@@ -112,12 +112,11 @@ const styles = StyleSheet.create({
     paddingLeft: 14,
   },
   cardsContainer: {
-    maxHeight: 130, 
-    marginBottom: 30,
+    marginBottom: 50,
   },
   cards: {
     flexDirection: 'row',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   card: {
     width: 150,
@@ -125,18 +124,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 4,
     backgroundColor: '#FBB5A9',
+    marginBottom: 20, 
   },
   cardContent: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 20,
   },
   icon: {
     marginBottom: 10,
-    color:'white',
-    fontWeight:'bold'
+    color: 'white',
+    fontWeight: 'bold',
   },
-  pStyle:{
-    fontWeight:'bold',
-    color:'white',
-  }
+  pStyle: {
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
