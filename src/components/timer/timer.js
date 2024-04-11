@@ -15,6 +15,7 @@ const TimerScreen = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
   const timerInterval = useRef(null);
   const startTime = useRef(null);
   const circleWidth = 150;
@@ -26,15 +27,21 @@ const TimerScreen = () => {
   const reset = () => {
     clearInterval(timerInterval.current);
     resetVars();
-  };
-  const pause = () => {
-    clearInterval(timerInterval.current);
-    startTime.current = Date.now();
+    setIsRunning(false); // Reset running state
   };
 
-  const startTimer = () => {
+  const toggleTimer = () => {
+    if (isRunning) {
+      pause();
+    } else {
+      start();
+    }
+  };
+
+  const start = () => {
     startTime.current = Date.now();
     setTimeLeft(hours * 3600 + minutes * 60 + seconds);
+    setIsRunning(true);
     timerInterval.current = setInterval(() => {
       const currentTime = Date.now();
       const elapsedTimeInSeconds = (currentTime - startTime.current) / 1000;
@@ -50,7 +57,13 @@ const TimerScreen = () => {
       startTime.current = currentTime; // Update start time for the next interval
     }, 1000);
   };
-  
+
+  const pause = () => {
+    clearInterval(timerInterval.current);
+    setIsRunning(false);
+    startTime.current = Date.now(); // Save the current time for accurate resume
+  };
+
   const renderTime = () => {
     const hoursLeft = Math.floor(timeLeft / 3600)
       .toString()
@@ -58,17 +71,10 @@ const TimerScreen = () => {
     const minutesLeft = Math.floor((timeLeft % 3600) / 60)
       .toString()
       .padStart(2, "0");
-    const secondsLeft = Math.floor(timeLeft % 60) // Round down to avoid jumping
+    const secondsLeft = Math.floor(timeLeft % 60)
       .toString()
       .padStart(2, "0");
     return `${hoursLeft}:${minutesLeft}:${secondsLeft}`;
-  };
-
-  const start = (withReset = false) => {
-    if (withReset) {
-      resetVars();
-    }
-    startTimer();
   };
 
   const timeIsUp = () => {
@@ -79,17 +85,18 @@ const TimerScreen = () => {
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
-      { text: "OK",  onPress: () => {
-        addToStreak((hours * 3600 + minutes * 60 + seconds)/60);
-        reset();
+      { 
+        text: "OK",  
+        onPress: () => {
+          addToStreak((hours * 3600 + minutes * 60 + seconds) / 60);
+          reset();
+        },
       },
-    },
     ]);
-    reset();
   };
 
   const addToStreak = (duration) => {  
-      const {  date } = timerData;
+    const {date } = timerData;
     addMarkedDate({ date, duration, remarks: "Added from timer" });
   };
 
@@ -177,19 +184,19 @@ const TimerScreen = () => {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => start(true)}>
-          <Text style={styles.buttonText}>Start</Text>
+        <TouchableOpacity style={styles.button} onPress={toggleTimer}>
+          <Text style={styles.buttonText}>{isRunning ? "Pause" : "Start"}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={pause}>
-          <Text style={styles.buttonText}>Pause</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={reset}>
-          <Text style={styles.buttonText}>Reset</Text>
-        </TouchableOpacity>
+        { !isRunning && (
+          <TouchableOpacity style={styles.button} onPress={reset}>
+            <Text style={styles.buttonText}>Reset</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </LinearGradient>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
