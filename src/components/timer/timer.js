@@ -39,17 +39,29 @@ const TimerScreen = () => {
       const currentTime = Date.now();
       const elapsedTimeInSeconds = (currentTime - startTime.current) / 1000;
       setTimeLeft((prevTimeLeft) => {
-        const updatedTimeLeft = Math.max(
-          0,
-          prevTimeLeft - elapsedTimeInSeconds
-        );
+        const updatedTimeLeft = Math.max(0, prevTimeLeft - elapsedTimeInSeconds);
         if (updatedTimeLeft <= 0) {
           timeIsUp();
           clearInterval(timerInterval.current);
+          return 0; // Ensure timeLeft doesn't go negative
         }
         return updatedTimeLeft;
       });
+      startTime.current = currentTime; // Update start time for the next interval
     }, 1000);
+  };
+  
+  const renderTime = () => {
+    const hoursLeft = Math.floor(timeLeft / 3600)
+      .toString()
+      .padStart(2, "0");
+    const minutesLeft = Math.floor((timeLeft % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    const secondsLeft = Math.floor(timeLeft % 60) // Round down to avoid jumping
+      .toString()
+      .padStart(2, "0");
+    return `${hoursLeft}:${minutesLeft}:${secondsLeft}`;
   };
 
   const start = (withReset = false) => {
@@ -91,22 +103,6 @@ const TimerScreen = () => {
     setTimeLeft(hours * 3600 + minutes * 60 + seconds);
   };
 
-  const calculateTimeFraction = () => {
-    return timeLeft / (HOURS_LIMIT * 3600 + MINUTES_LIMIT * 60 + SECONDS_LIMIT);
-  };
-
-  const renderTime = () => {
-    const hoursLeft = Math.floor(timeLeft / 3600)
-      .toString()
-      .padStart(2, "0");
-    const minutesLeft = Math.floor((timeLeft % 3600) / 60)
-      .toString()
-      .padStart(2, "0");
-    const secondsLeft = Math.ceil(timeLeft % 60)
-      .toString()
-      .padStart(2, "0");
-    return `${hoursLeft}:${minutesLeft}:${secondsLeft}`;
-  };
 
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>

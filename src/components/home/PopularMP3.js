@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 'auto',
     marginRight: 10,
+    marginBottom:15
   },
   cardTitle: {
     fontSize: 16,
