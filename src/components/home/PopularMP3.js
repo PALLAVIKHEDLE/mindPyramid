@@ -1,21 +1,39 @@
 import React from 'react';
-import { StyleSheet, FlatList, Text, ScrollView, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, FlatList, Text, ScrollView, View, TouchableOpacity , Alert} from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
 import Colors from '../../style/colors';
 import { meditations } from './MeditationData';
 import * as FileSystem from 'expo-file-system';
 import { Octicons } from '@expo/vector-icons'
+import * as Permissions from 'expo-permissions';
+
+
 
 const handleDownload = async (uri) => {
   try {
-    const downloadDir = FileSystem.documentDirectory;
-    const filePath = `${downloadDir}meditation.mp3`;
+    // Request permission to write to the app's document directory
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status !== 'granted') {
+      throw new Error('Permission to save file was denied');
+    }
 
-    const { uri: downloadedUri } = await FileSystem.downloadAsync(uri, filePath);
+    // Define the file URI in the app's document directory
+    const fileUri = FileSystem.documentDirectory + 'audio.mp3';
 
-    console.log('File downloaded to:', downloadedUri);
+    // Initiate download
+    const downloadObject = FileSystem.createDownloadResumable(uri, fileUri);
+    const downloadResult = await downloadObject.downloadAsync();
+
+    // Check download result
+    if (downloadResult && downloadResult.status === 200) {
+      // Show download completion alert with the saved location
+      Alert.alert('Download Complete', `Audio saved to: ${downloadResult.uri}`);
+    } else {
+      throw new Error('Failed to download audio');
+    }
   } catch (error) {
     console.error('Download error:', error);
+    Alert.alert('Download Error', error.message);
   }
 };
 

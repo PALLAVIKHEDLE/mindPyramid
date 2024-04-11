@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
@@ -79,6 +79,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <Image
         source={require("../../assets/loginScreen.png")}
@@ -103,6 +104,7 @@ const LoginScreen = ({ navigation }) => {
         </Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 

@@ -19,7 +19,8 @@
       "bundleIdentifier": "com.peace.mindpyramid",
       "infoPlist": {
         "NSCameraUsageDescription": "This app requires access to the camera to take photos.",
-        "NSMicrophoneUsageDescription": "This app requires access to the microphone to record audio."
+        "NSMicrophoneUsageDescription": "This app requires access to the microphone to record audio.",
+        "NSPhotoLibraryAddUsageDescription": "This app needs permission to save downloaded audio to your library."
       }
     },
     "android": {
@@ -29,7 +30,8 @@
         "AUDIO_RECORDING",
         "RECORD_AUDIO",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
+        "WRITE_EXTERNAL_STORAGE",
+        "MEDIA_LIBRARY"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

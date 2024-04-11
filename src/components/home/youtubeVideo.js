@@ -3,8 +3,9 @@ import { StyleSheet, Text, TouchableOpacity, Image, ScrollView, View } from "rea
 import { LinearGradient } from "expo-linear-gradient";
 import videoList from './VideoList'
 
-const YoutubeScreen = ({ navigation }) => {
-    // const videoList = navigation.getParam('videoList', []); 
+const YoutubeScreen = ({ navigation, route}) => {
+    // const {videoList} = route.params; 
+
     const handleVideoPress = (videoId) => {
         navigation.navigate("VideoPlayer", { videoId: videoId });
       };
