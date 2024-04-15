@@ -3,28 +3,31 @@ import { StyleSheet, Text, TouchableOpacity, Image, ScrollView, View } from "rea
 import { LinearGradient } from "expo-linear-gradient";
 import videoList from './VideoList'
 
-const YoutubeScreen = ({ navigation }) => {
-    // const videoList = navigation.getParam('videoList', []); 
+const YoutubeScreen = ({ navigation, route}) => {
+    // const {videoList} = route.params; 
+
     const handleVideoPress = (videoId) => {
         navigation.navigate("VideoPlayer", { videoId: videoId });
       };
   return (
     <LinearGradient colors={["#CADFED", "#EDF5F9"]} style={styles.container}>
-      <ScrollView>
-        {videoList.map((video, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.videoItem}
-            onPress={() => handleVideoPress(video.id.videoId)}
-          >
-            <Image
-              source={{ uri: video.snippet.thumbnails.medium.url }}
-              style={styles.thumbnail}
-            />
-            <Text style={styles.videoTitle}>{video.snippet.title}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <View style={styles.videoListContainer}>
+        <ScrollView>
+          {videoList.map((video, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.videoItem}
+              onPress={() => handleVideoPress(video.id.videoId)}
+            >
+              <Image
+                source={{ uri: video.snippet.thumbnails.medium.url }}
+                style={styles.thumbnail}
+              />
+              <Text style={styles.videoTitle}>{video.snippet.title}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
     </LinearGradient>
   );
 };
@@ -36,6 +39,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  videoListContainer: {
+    flex: 1,
+    width: '100%',
   },
   videoItem: {
     flexDirection: "row",
