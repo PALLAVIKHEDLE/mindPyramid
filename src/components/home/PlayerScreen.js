@@ -163,12 +163,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: Colors.activeColor,
+    alignItems:'center'
   },
   controls: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+    marginLeft:40
   },
   controlButton: {
     backgroundColor: Colors.activeColor,
