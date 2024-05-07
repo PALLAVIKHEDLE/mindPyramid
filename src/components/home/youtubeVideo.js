@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import videoList from './VideoList'
+// import videoList from './VideoList'
 
 const YoutubeScreen = ({ navigation, route}) => {
-    // const {videoList} = route.params; 
+  //if you are Directly taking videolist from the API DATA. enable line 8, if you want data for testing enable line 4 comment 8.
+    const {videoList} = route.params; 
 
     const handleVideoPress = (videoId) => {
         navigation.navigate("VideoPlayer", { videoId: videoId });
