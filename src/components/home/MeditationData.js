@@ -11,16 +11,16 @@ import lovingKindnessImage from "../../assets/Loving-Kindness.jpeg";
 import guidedImage from "../../assets/guided.jpeg";
 
 export const stories = [
-    { id: 1, imageUrl: natureImage, text: "Nature" },
-    { id: 2, imageUrl: guidedImage, text: "Guided" },
-    { id: 3, imageUrl: yogaImage, text: "Yoga" },
-    { id: 4, imageUrl: movementImage, text: "Movement" },
-    { id: 5, imageUrl: waterImage, text: "Water" },
-    { id: 6, imageUrl: lovingKindnessImage, text: "Loving-Kindness" },
-    { id: 7, imageUrl: bodyScanImage, text: "Body Scan" },
-    { id: 8, imageUrl: mindfulnessImage, text: "Mindfulness" },
-    { id: 9, imageUrl: soundImage, text: "Sound" },
-    { id: 10, imageUrl: transcendentalImage, text: "Transcendental" },
+    { id: 1, imageUrl: natureImage, text: "Nature Meditation Sound" },
+    { id: 2, imageUrl: guidedImage, text: "Guided Meditation" },
+    { id: 3, imageUrl: yogaImage, text: "Yoga Meditation" },
+    { id: 4, imageUrl: movementImage, text: "Movement Meditation" },
+    { id: 5, imageUrl: waterImage, text: "Water Meditation Sound" },
+    { id: 6, imageUrl: lovingKindnessImage, text: "Loving-Kindness Meditation" },
+    { id: 7, imageUrl: bodyScanImage, text: "Body Scan Meditation" },
+    { id: 8, imageUrl: mindfulnessImage, text: "Mindfulness Meditation" },
+    { id: 9, imageUrl: soundImage, text: "Sound Meditation Music" },
+    { id: 10, imageUrl: transcendentalImage, text: "Transcendental Meditation" },
   ];
   const popular = [
     {
