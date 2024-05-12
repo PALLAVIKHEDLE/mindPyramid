@@ -14,11 +14,11 @@ const LoginScreen = ({ navigation }) => {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     clientId:
-      "686074631278-q607n2frm9dtpiqaandgln0fjvmsku7e.apps.googleusercontent.com",
+      "clientId",
     iosClientId:
-      "686074631278-3rlp0ieu6ir77ucfqdit8qh9lkh7ti36.apps.googleusercontent.com",
+      "iosClientId",
     androidClientId:
-      "686074631278-b1nh1kemt9ng4e9utfmd1h44q1leaccs.apps.googleusercontent.com",
+      "androidClientId",
   });
 
   useEffect(() => {

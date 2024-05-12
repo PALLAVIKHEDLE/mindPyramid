@@ -16,7 +16,7 @@ import PopularMP3 from "./PopularMP3";
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_KEY = "YOUR_YOUTUBE_API_KEY"; //AIzaSyB4KLNvjwSM8pifgko4XXbSs16zCOnT6hU
+const API_KEY = "YOUR_YOUTUBE_API_KEY"; 
 
 export default function HomeScreen() {
   const popularMP3ImageWidth = Dimensions.get("window").width;
